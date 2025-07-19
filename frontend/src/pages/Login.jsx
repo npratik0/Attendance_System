@@ -17,10 +17,35 @@ const Login = ({ onSwitchToSignup }) => {
         });
     };
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        // Handle login logic here
-        console.log('Login attempt:', { userType, formData });
+    const handleSubmit = async(e) => {
+         e.preventDefault();
+        try {
+            const loginData =
+            userType === 'student'
+                ? { studentId: formData.studentId, password: formData.password, role: 'student' }
+                : { email: formData.email, password: formData.password, role: 'teacher' };
+
+            const response = await fetch('http://localhost:5000/api/auth/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(loginData)
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) throw new Error(data.message || 'Login failed');
+
+            localStorage.setItem('token', data.token);
+            alert('Login successful!');
+            console.log('User:', data.user);
+            // Redirect or update state here
+
+        } catch (error) {
+            alert(error.message);
+            console.error('Login error:', error);
+        }
     };
 
     const toggleUserType = (type) => {
