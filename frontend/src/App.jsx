@@ -1,19 +1,62 @@
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Signup from './components/Signup';
-import Login from './components/Login';
-import Dashboard from './components/Dashboard';
+// import React from 'react';
+// import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+// import Signup from './components/Signup';
+// import Login from './components/Login';
+// import Dashboard from './components/Dashboard';
+// import Navbar from './components/Navbar';
+// import Login from './pages/Login';
+
+// function App() {
+//   return (
+//     <Router>
+//       <Routes>
+//         <Route path="/" element={<Login />} />
+//         <Route path="/login" element={<Login />} />
+//         <Route path="/signup" element={<Signup />} />
+//         <Route path="/dashboard" element={<Dashboard />}
+//         <Route path ="/navbar" element={<Navbar />}
+//         />
+//       </Routes>
+//     </Router>
+//   );
+// }
+
+// export default App;
+
+// src/App.jsx
+import React, { useState } from 'react';
+import Navbar from './components/Navbar';
+import LandingPage from './pages/LandingPage';
+import Login from './pages/Login';
+import Signup from './pages/SIgnup'; // double check spelling
 
 function App() {
+  const [currentPage, setCurrentPage] = useState('landing'); // default is landing page
+
+  const handlePageSwitch = (page) => {
+    setCurrentPage(page);
+  };
+
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<Login />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<Signup />} />
-        <Route path="/dashboard" element={<Dashboard />} />
-      </Routes>
-    </Router>
+    <div className="App">
+      {/* Always show Navbar */}
+      <Navbar currentPage={currentPage} onPageSwitch={handlePageSwitch} />
+
+      <main>
+        {currentPage === 'landing' && (
+          <LandingPage
+            onSwitchToLogin={() => handlePageSwitch('login')}
+            onSwitchToSignup={() => handlePageSwitch('signup')}
+          />
+        )}
+        {currentPage === 'login' && (
+          <Login onSwitchToSignup={() => handlePageSwitch('signup')} />
+        )}
+        {currentPage === 'signup' && (
+          <Signup onSwitchToLogin={() => handlePageSwitch('login')} />
+        )}
+      </main>
+    </div>
   );
 }
 
