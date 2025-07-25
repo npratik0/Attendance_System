@@ -24,14 +24,53 @@
 // export default App;
 
 // src/App.jsx
+// import React, { useState } from 'react';
+// import Navbar from './components/Navbar';
+// import LandingPage from './pages/LandingPage';
+// import Login from './pages/Login';
+// import Signup from './pages/SIgnup'; // double check spelling
+
+// function App() {
+//   const [currentPage, setCurrentPage] = useState('landing'); // default is landing page
+
+//   const handlePageSwitch = (page) => {
+//     setCurrentPage(page);
+//   };
+
+//   return (
+//     <div className="App">
+//       {/* Always show Navbar */}
+//       <Navbar currentPage={currentPage} onPageSwitch={handlePageSwitch} />
+
+//       <main>
+//         {currentPage === 'landing' && (
+//           <LandingPage
+//             onSwitchToLogin={() => handlePageSwitch('login')}
+//             onSwitchToSignup={() => handlePageSwitch('signup')}
+//           />
+//         )}
+//         {currentPage === 'login' && (
+//           <Login onSwitchToSignup={() => handlePageSwitch('signup')} />
+//         )}
+//         {currentPage === 'signup' && (
+//           <Signup onSwitchToLogin={() => handlePageSwitch('login')} />
+//         )}
+//       </main>
+//     </div>
+//   );
+// }
+
+// export default App;
+
 import React, { useState } from 'react';
 import Navbar from './components/Navbar';
 import LandingPage from './pages/LandingPage';
 import Login from './pages/Login';
 import Signup from './pages/SIgnup'; // double check spelling
+import ProfilePage from './pages/ProfilePage'; // ✅ NEW IMPORT
 
 function App() {
-  const [currentPage, setCurrentPage] = useState('landing'); // default is landing page
+  const [currentPage, setCurrentPage] = useState('profile'); // default is landing page
 
   const handlePageSwitch = (page) => {
     setCurrentPage(page);
@@ -54,6 +93,9 @@ function App() {
         )}
         {currentPage === 'signup' && (
           <Signup onSwitchToLogin={() => handlePageSwitch('login')} />
+        )}
+        {currentPage === 'profile' && (
+          <ProfilePage onBack={() => handlePageSwitch('landing')} /> // ✅ You can add onBack or anything you like
         )}
       </main>
     </div>
