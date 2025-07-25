@@ -66,11 +66,12 @@ import React, { useState } from 'react';
 import Navbar from './components/Navbar';
 import LandingPage from './pages/LandingPage';
 import Login from './pages/Login';
-import Signup from './pages/SIgnup'; // double check spelling
-import ProfilePage from './pages/ProfilePage'; // ✅ NEW IMPORT
+import Signup from './pages/SIgnup'; // Double check the file name casing
+import ProfilePage from './pages/ProfilePage';
+import TeachersDashboard from './pages/TeachersDashboard'; // ✅ NEW IMPORT
 
 function App() {
-  const [currentPage, setCurrentPage] = useState('profile'); // default is landing page
+  const [currentPage, setCurrentPage] = useState('dashboard'); // ✅ default is teacher dashboard
 
   const handlePageSwitch = (page) => {
     setCurrentPage(page);
@@ -78,8 +79,10 @@ function App() {
 
   return (
     <div className="App">
-      {/* Always show Navbar */}
-      <Navbar currentPage={currentPage} onPageSwitch={handlePageSwitch} />
+      {/* ✅ Conditionally show Navbar only if not on TeachersDashboard */}
+      {currentPage !== 'dashboard' && (
+        <Navbar currentPage={currentPage} onPageSwitch={handlePageSwitch} />
+      )}
 
       <main>
         {currentPage === 'landing' && (
@@ -95,7 +98,10 @@ function App() {
           <Signup onSwitchToLogin={() => handlePageSwitch('login')} />
         )}
         {currentPage === 'profile' && (
-          <ProfilePage onBack={() => handlePageSwitch('landing')} /> // ✅ You can add onBack or anything you like
+          <ProfilePage onBack={() => handlePageSwitch('dashboard')} />
+        )}
+        {currentPage === 'dashboard' && (
+          <TeachersDashboard onNavigate={handlePageSwitch} />
         )}
       </main>
     </div>
