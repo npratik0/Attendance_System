@@ -24,11 +24,66 @@ const Signup = ({ onSwitchToLogin }) => {
         });
     };
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        // Handle signup logic here
-        console.log('Signup attempt:', { userType, formData });
+    // const handleSubmit = (e) => {
+    //     e.preventDefault();
+    //     // Handle signup logic here
+    //     console.log('Signup attempt:', { userType, formData });
+    // };
+
+    const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const password = formData.password.trim();
+    const confirmPassword = formData.confirmPassword.trim();
+
+    console.log("Password:", password);
+    console.log("Confirm:", confirmPassword);
+
+    if (password !== confirmPassword) {
+        alert("Passwords do not match!");
+        return;
+    }
+
+    const payload = {
+    fullName: formData.fullName,
+    email: formData.email,
+    phone: formData.phone,
+    password: formData.password,
+    confirmPassword: formData.confirmPassword, // ✅ required
+    role: userType,
+    department: formData.department
+    
     };
+
+    if (userType === 'student') {
+    payload.studentId = formData.studentId;
+    payload.semester = formData.semester;
+    } else {
+    payload.employeeId = formData.employeeId;
+    }
+
+    try {
+        const response = await fetch('http://localhost:5000/api/auth/signup', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+        throw new Error(data.message || 'Signup failed');
+        }
+
+        alert('Account created successfully!');
+        onSwitchToLogin();
+    } catch (error) {
+        console.error('Signup error:', error);
+        alert(error.message);
+    }
+    };
+
+
 
     const toggleUserType = (type) => {
         setUserType(type);
