@@ -7,6 +7,7 @@ import Signup from './pages/SIgnup'; // ✅ Double check casing
 import ProfilePage from './pages/ProfilePage';
 import TeachersDashboard from './pages/TeachersDashboard'; // ✅ Teacher dashboard
 import StudentDashboard from './pages/StudentDashboard'; // ✅ NEW: Student dashboard
+import AdminLogin from './pages/AdminLogin';
 
 // function App() {
 //   const [currentPage, setCurrentPage] = useState('student-dashboard'); // ✅ default is teacher dashboard
@@ -60,6 +61,7 @@ function App(){
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="/teacher-dashboard" element={<TeachersDashboard />} />
         <Route path="/student-dashboard" element={<StudentDashboard />} />
+        <Route path="/admin-login" element={<AdminLogin />} />
 
       </Routes>
       

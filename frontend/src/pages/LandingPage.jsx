@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Navbar from '../components/Navbar';
 import {
     Camera,
     Shield,
@@ -413,6 +414,7 @@ const LandingPage = ({ onSwitchToLogin, onSwitchToSignup }) => {
     return (
         <div className="min-h-screen bg-white">
             {/* Removed <Navigation /> component - using main Navbar from App.jsx instead */}
+            <Navbar></Navbar>
             <HeroSection onGetStartedClick={handleGetStartedClick} />
             <FeaturesSection />
             <WhyChooseUsSection />
