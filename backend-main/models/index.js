@@ -24,11 +24,35 @@
 // module.exports = db;
 
 
-const sequelize = require('../config/dbConfig');
-const User = require('./user');
+// const sequelize = require('../config/dbConfig');
+// const User = require('./user');
+// const Ticket = require('./Ticket');
 
-sequelize.sync({ alter: true })  // or { force: true } for dev
+// sequelize.sync({ alter: true })  // or { force: true } for dev
+//   .then(() => console.log("Database synced"))
+//   .catch(err => console.error("Sync failed:", err));
+
+// module.exports = { User, Ticket };
+
+
+const Sequelize = require('sequelize');
+const sequelize = require('../config/dbConfig');
+
+const User = require('./user'); // Already working
+
+// ✅ Properly import and initialize Ticket model
+const TicketModel = require('./Ticket');
+const Ticket = TicketModel(sequelize, Sequelize.DataTypes);
+
+// Sync models with database
+sequelize.sync({ alter: true })
   .then(() => console.log("Database synced"))
   .catch(err => console.error("Sync failed:", err));
 
-module.exports = { User };
+// Export models
+module.exports = {
+  User,
+  Ticket
+};
+
+
