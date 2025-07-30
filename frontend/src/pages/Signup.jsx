@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
 import { User, Lock, Mail, CreditCard, Eye, EyeOff, Camera, Users, GraduationCap, Phone, UserPlus } from 'lucide-react';
 
 const Signup = ({ onSwitchToLogin }) => {
+    const navigate = useNavigate();
     const [userType, setUserType] = useState('student');
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -76,7 +78,8 @@ const Signup = ({ onSwitchToLogin }) => {
         }
 
         alert('Account created successfully!');
-        onSwitchToLogin();
+        // 
+        navigate('/login');
     } catch (error) {
         console.error('Signup error:', error);
         alert(error.message);
@@ -368,12 +371,15 @@ const Signup = ({ onSwitchToLogin }) => {
                         <div className="text-center mt-6">
                             <p className="text-gray-600">
                                 Already have an account?{' '}
-                                <button
+                                {/* <button
                                     onClick={onSwitchToLogin}
                                     className="text-blue-600 hover:text-blue-700 font-medium"
                                 >
                                     Sign in here
-                                </button>
+                                </button> */}
+                                <Link to="/login" className="text-blue-600 hover:text-blue-700 font-medium">
+                                    Sign in here
+                                </Link>
                             </p>
                         </div>
 

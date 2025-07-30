@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
+
 import { User, Lock, Mail, CreditCard, Eye, EyeOff, Camera, Users, GraduationCap } from 'lucide-react';
 
 const Login = ({ onSwitchToSignup }) => {
+    const navigate = useNavigate();
     const [userType, setUserType] = useState('student');
     const [showPassword, setShowPassword] = useState(false);
     const [formData, setFormData] = useState({
@@ -17,20 +20,51 @@ const Login = ({ onSwitchToSignup }) => {
         });
     };
 
-    const handleSubmit = async(e) => {
-         e.preventDefault();
+    // const handleSubmit = async(e) => {
+    //      e.preventDefault();
+    //     try {
+    //         const loginData =
+    //         userType === 'student'
+    //             ? { studentId: formData.studentId, password: formData.password, role: 'student' }
+    //             : { email: formData.email, password: formData.password, role: 'teacher' };
+
+    //         const response = await fetch('http://localhost:5000/api/auth/login', {
+    //         method: 'POST',
+    //         headers: {
+    //             'Content-Type': 'application/json'
+    //         },
+    //         body: JSON.stringify(loginData)
+    //         });
+
+    //         const data = await response.json();
+
+    //         if (!response.ok) throw new Error(data.message || 'Login failed');
+
+    //         localStorage.setItem('token', data.token);
+    //         alert('Login successful!');
+    //         console.log('User:', data.user);
+    //         // Redirect or update state here
+
+    //     } catch (error) {
+    //         alert(error.message);
+    //         console.error('Login error:', error);
+    //     }
+    // };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
         try {
             const loginData =
-            userType === 'student'
-                ? { studentId: formData.studentId, password: formData.password, role: 'student' }
-                : { email: formData.email, password: formData.password, role: 'teacher' };
+                userType === 'student'
+                    ? { studentId: formData.studentId, password: formData.password, role: 'student' }
+                    : { email: formData.email, password: formData.password, role: 'teacher' };
 
             const response = await fetch('http://localhost:5000/api/auth/login', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(loginData)
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(loginData),
             });
 
             const data = await response.json();
@@ -39,14 +73,22 @@ const Login = ({ onSwitchToSignup }) => {
 
             localStorage.setItem('token', data.token);
             alert('Login successful!');
-            console.log('User:', data.user);
-            // Redirect or update state here
+
+            // Redirect to appropriate dashboard
+            if (data.user.role === 'student') {
+                navigate('/student-dashboard');
+            } else if (data.user.role === 'teacher') {
+                navigate('/teacher-dashboard');
+            } else {
+                alert('Unknown role. Cannot redirect.');
+            }
 
         } catch (error) {
             alert(error.message);
             console.error('Login error:', error);
         }
     };
+
 
     const toggleUserType = (type) => {
         setUserType(type);
@@ -166,7 +208,7 @@ const Login = ({ onSwitchToSignup }) => {
                                     onClick={onSwitchToSignup}
                                     className="text-blue-600 hover:text-blue-700 font-medium"
                                 >
-                                    Register here
+                                    <Link to = "/signup">  Register here  </Link>
                                 </button>
                             </p>
                         </div>

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import {
     Camera,
     User,
@@ -74,11 +75,11 @@ const StudentNavbar = ({ onProfileClick, onNotificationClick }) => {
                                         className="w-full px-4 py-2 text-left text-gray-700 hover:bg-gray-50 flex items-center space-x-2"
                                     >
                                         <User className="w-4 h-4" />
-                                        <span>Profile</span>
+                                        <span><Link to = "/profile">Profile</Link></span>
                                     </button>
                                     <button className="w-full px-4 py-2 text-left text-gray-700 hover:bg-gray-50 flex items-center space-x-2">
                                         <LogOut className="w-4 h-4" />
-                                        <span>Logout</span>
+                                        <span><Link to = "/login">Logout</Link></span>
                                     </button>
                                 </div>
                             )}
