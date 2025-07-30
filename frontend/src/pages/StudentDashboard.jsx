@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import Footer from '../components/Footer';
+
 import {
     Camera,
     User,
@@ -432,8 +434,8 @@ const AbsenceHistoryContent = () => {
                                     </td>
                                     <td className="px-6 py-4 whitespace-nowrap">
                                         <span className={`inline-flex items-center space-x-1 px-2 py-1 rounded-full text-xs font-medium ${absence.excused
-                                                ? 'bg-green-100 text-green-800'
-                                                : 'bg-red-100 text-red-800'
+                                            ? 'bg-green-100 text-green-800'
+                                            : 'bg-red-100 text-red-800'
                                             }`}>
                                             {absence.excused ? <CheckCircle className="w-3 h-3" /> : <XCircle className="w-3 h-3" />}
                                             <span>{absence.excused ? 'Excused' : 'Unexcused'}</span>
@@ -724,6 +726,8 @@ const StudentDashboard = () => {
                     </div>
                 </div>
             </div>
+            <Footer />
+
         </div>
     );
 };
