@@ -58,7 +58,7 @@ function App() {
     <Router>
       <Routes>
         {/* <Route path="/" element={<LandingPage />} /> */}
-        <Route path="/" element={<AdminDashboard />} /> {/* ✅ Start page changed */}
+        <Route path="/" element={<Login />} /> ✅ Start page changed
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/profile" element={<ProfilePage />} />

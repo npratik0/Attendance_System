@@ -736,7 +736,7 @@
 
 
 import React, { useState } from 'react';
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import Footer from '../components/Footer';
 
 import {
@@ -777,7 +777,7 @@ const StudentNavbar = ({ onProfileClick, onNotificationClick }) => {
                             <Camera className="w-6 h-6 text-white" />
                         </div>
                         <div>
-                            <span className="text-xl font-bold text-gray-800">FaceTrackr</span>
+                            <span className="text-xl font-bold text-gray-800">ClockinGo</span>
                             <p className="text-xs text-gray-500 hidden sm:block">Student Dashboard</p>
                         </div>
                     </div>
@@ -814,11 +814,11 @@ const StudentNavbar = ({ onProfileClick, onNotificationClick }) => {
                                         className="w-full px-4 py-2 text-left text-gray-700 hover:bg-gray-50 flex items-center space-x-2"
                                     >
                                         <User className="w-4 h-4" />
-                                        <span><Link to = "/profile">Profile</Link></span>
+                                        <span><Link to="/profile">Profile</Link></span>
                                     </button>
                                     <button className="w-full px-4 py-2 text-left text-gray-700 hover:bg-gray-50 flex items-center space-x-2">
                                         <LogOut className="w-4 h-4" />
-                                        <span><Link to = "/login">Logout</Link></span>
+                                        <span><Link to="/login">Logout</Link></span>
                                     </button>
                                 </div>
                             )}
@@ -971,9 +971,10 @@ const DashboardContent = () => {
                 <p className="text-blue-100">You've attended 92% of your classes this month. Keep it up!</p>
                 <div className="mt-4 bg-white bg-opacity-20 rounded-lg p-3">
                     <div className="flex justify-between items-center mb-2">
-                        <span className="text-sm font-medium">Monthly Goal: 95%</span>
-                        <span className="text-sm font-medium">92%</span>
+                        <span className="text-sm font-medium text-black">Monthly Goal: 95%</span>
+                        <span className="text-sm font-medium text-black">92%</span>
                     </div>
+
                     <div className="w-full bg-white bg-opacity-30 rounded-full h-2">
                         <div className="bg-white h-2 rounded-full" style={{ width: '97%' }}></div>
                     </div>
