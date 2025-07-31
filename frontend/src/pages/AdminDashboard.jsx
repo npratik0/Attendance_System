@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import {
     Camera,
@@ -38,6 +39,14 @@ import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContaine
 const AdminNavbar = ({ onProfileClick, onNotificationClick }) => {
     const [showProfileDropdown, setShowProfileDropdown] = useState(false);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        const isLoggedIn = localStorage.getItem('isAdminLoggedIn');
+        if (isLoggedIn !== 'true') {
+        navigate('/admin-login');
+        }
+    }, [navigate]);
 
     return (
         <nav className="bg-white shadow-lg border-b border-gray-200 sticky top-0 z-50">

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Lock, Mail, Eye, EyeOff, Camera } from 'lucide-react';
+import { useNavigate } from "react-router-dom";
 
 const AdminLogin = () => {
     const [formData, setFormData] = useState({
@@ -10,6 +11,7 @@ const AdminLogin = () => {
 
     const adminUsername = 'admin'; // ✅ Hardcoded admin username
     const adminPassword = 'admin123'; // ✅ Hardcoded admin password
+    const navigate = useNavigate();
 
     const handleInputChange = (e) => {
         setFormData({
@@ -27,6 +29,8 @@ const AdminLogin = () => {
         ) {
             alert('Admin login successful!');
             console.log('Logged in as Admin');
+            localStorage.setItem("isAdminLoggedIn", "true");
+            navigate("/admin-dashboard");
             // Add redirection or state update here
         } else {
             alert('Invalid username or password');

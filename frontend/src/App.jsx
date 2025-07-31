@@ -9,6 +9,8 @@ import TeachersDashboard from './pages/TeachersDashboard'; // ✅ Teacher dashbo
 import StudentDashboard from './pages/StudentDashboard'; // ✅ NEW: Student dashboard
 import AdminLogin from './pages/AdminLogin';
 import AdminDashboard from './pages/AdminDashboard'; // ✅ Import your new file
+import ProtectedRoute from './pages/ProtectedRoutes';
+
 
 
 // function App() {
@@ -61,11 +63,18 @@ function App() {
         <Route path="/" element={<Login />} /> ✅ Start page changed
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
-        <Route path="/profile" element={<ProfilePage />} />
-        <Route path="/teacher-dashboard" element={<TeachersDashboard />} />
-        <Route path="/student-dashboard" element={<StudentDashboard />} />
-        <Route path="/admin-dashboard" element={<AdminDashboard />} /> {/* ✅ Added route */}
         <Route path="/admin-login" element={<AdminLogin />} />
+        
+        <Route path="/admin-dashboard" element={<AdminDashboard />} /> {/* ✅ Added route */}
+        
+
+        <Route element={<ProtectedRoute />}>
+          <Route path="/teacher-dashboard" element={<TeachersDashboard />} />
+          <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/student-dashboard" element={<StudentDashboard />} />
+
+        </Route>
+
       </Routes>
     </Router>
   )
