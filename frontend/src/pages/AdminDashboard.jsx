@@ -1,5 +1,7 @@
 import React, { useState,useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+
 
 import {
     Camera,
@@ -553,144 +555,296 @@ const AttendanceOverviewContent = () => {
 };
 
 // Tickets/Leave Requests Content Component
+// const TicketsContent = () => {
+//     const [filterStatus, setFilterStatus] = useState('all');
+
+//     const tickets = [
+//         { id: 'T001', student: 'John Doe', reason: 'Medical Emergency', date: '2024-01-15', status: 'pending' },
+//         { id: 'T002', student: 'Jane Smith', reason: 'Family Function', date: '2024-01-14', status: 'approved' },
+//         { id: 'T003', student: 'Mike Johnson', reason: 'Personal Work', date: '2024-01-14', status: 'rejected' },
+//         { id: 'T004', student: 'Sarah Wilson', reason: 'Medical Appointment', date: '2024-01-13', status: 'pending' },
+//         { id: 'T005', student: 'Tom Brown', reason: 'Job Interview', date: '2024-01-12', status: 'approved' },
+//         { id: 'T006', student: 'Emily Davis', reason: 'Wedding Ceremony', date: '2024-01-11', status: 'pending' },
+//     ];
+
+//     const filteredTickets = filterStatus === 'all'
+//         ? tickets
+//         : tickets.filter(ticket => ticket.status === filterStatus);
+
+//     const handleApprove = (ticketId) => {
+//         alert(`Ticket ${ticketId} approved!`);
+//     };
+
+//     const handleReject = (ticketId) => {
+//         alert(`Ticket ${ticketId} rejected!`);
+//     };
+
+//     return (
+//         <div className="space-y-6">
+//             <div>
+//                 <h1 className="text-2xl font-bold text-gray-800 mb-2">Tickets / Leave Requests</h1>
+//                 <p className="text-gray-600">Manage student leave requests and support tickets</p>
+//             </div>
+
+//             {/* Filter Section */}
+//             <div className="bg-white rounded-lg shadow-lg border border-gray-100 p-6">
+//                 <div className="flex items-center space-x-4">
+//                     <span className="text-sm font-medium text-gray-600">Filter by Status:</span>
+//                     <div className="flex space-x-2">
+//                         <button
+//                             onClick={() => setFilterStatus('all')}
+//                             className={`px-3 py-1 rounded-full text-sm font-medium transition-all duration-200 ${filterStatus === 'all'
+//                                 ? 'bg-blue-100 text-blue-800'
+//                                 : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+//                                 }`}
+//                         >
+//                             All
+//                         </button>
+//                         <button
+//                             onClick={() => setFilterStatus('pending')}
+//                             className={`px-3 py-1 rounded-full text-sm font-medium transition-all duration-200 ${filterStatus === 'pending'
+//                                 ? 'bg-yellow-100 text-yellow-800'
+//                                 : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+//                                 }`}
+//                         >
+//                             Pending
+//                         </button>
+//                         <button
+//                             onClick={() => setFilterStatus('approved')}
+//                             className={`px-3 py-1 rounded-full text-sm font-medium transition-all duration-200 ${filterStatus === 'approved'
+//                                 ? 'bg-green-100 text-green-800'
+//                                 : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+//                                 }`}
+//                         >
+//                             Approved
+//                         </button>
+//                         <button
+//                             onClick={() => setFilterStatus('rejected')}
+//                             className={`px-3 py-1 rounded-full text-sm font-medium transition-all duration-200 ${filterStatus === 'rejected'
+//                                 ? 'bg-red-100 text-red-800'
+//                                 : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+//                                 }`}
+//                         >
+//                             Rejected
+//                         </button>
+//                     </div>
+//                 </div>
+//             </div>
+
+//             {/* Tickets Table */}
+//             <div className="bg-white rounded-lg shadow-lg border border-gray-100 p-6">
+//                 <div className="overflow-x-auto">
+//                     <table className="w-full table-auto">
+//                         <thead>
+//                             <tr className="border-b border-gray-200">
+//                                 <th className="text-left py-3 px-4 font-medium text-gray-600">Ticket ID</th>
+//                                 <th className="text-left py-3 px-4 font-medium text-gray-600">Student</th>
+//                                 <th className="text-left py-3 px-4 font-medium text-gray-600">Reason</th>
+//                                 <th className="text-left py-3 px-4 font-medium text-gray-600">Date</th>
+//                                 <th className="text-left py-3 px-4 font-medium text-gray-600">Status</th>
+//                                 <th className="text-left py-3 px-4 font-medium text-gray-600">Actions</th>
+//                             </tr>
+//                         </thead>
+//                         <tbody>
+//                             {filteredTickets.map((ticket) => (
+//                                 <tr key={ticket.id} className="border-b border-gray-100 hover:bg-gray-50">
+//                                     <td className="py-3 px-4 font-medium">{ticket.id}</td>
+//                                     <td className="py-3 px-4">{ticket.student}</td>
+//                                     <td className="py-3 px-4">{ticket.reason}</td>
+//                                     <td className="py-3 px-4 text-gray-600">{ticket.date}</td>
+//                                     <td className="py-3 px-4">
+//                                         <span className={`px-2 py-1 rounded-full text-xs font-medium ${ticket.status === 'pending' ? 'bg-yellow-100 text-yellow-800' :
+//                                             ticket.status === 'approved' ? 'bg-green-100 text-green-800' :
+//                                                 'bg-red-100 text-red-800'
+//                                             }`}>
+//                                             {ticket.status.charAt(0).toUpperCase() + ticket.status.slice(1)}
+//                                         </span>
+//                                     </td>
+//                                     <td className="py-3 px-4">
+//                                         {ticket.status === 'pending' ? (
+//                                             <div className="flex space-x-2">
+//                                                 <button
+//                                                     onClick={() => handleApprove(ticket.id)}
+//                                                     className="bg-green-600 text-white px-3 py-1 rounded-lg text-sm hover:bg-green-700 transition-colors duration-200 flex items-center space-x-1"
+//                                                 >
+//                                                     <Check className="w-3 h-3" />
+//                                                     <span>Approve</span>
+//                                                 </button>
+//                                                 <button
+//                                                     onClick={() => handleReject(ticket.id)}
+//                                                     className="bg-red-600 text-white px-3 py-1 rounded-lg text-sm hover:bg-red-700 transition-colors duration-200 flex items-center space-x-1"
+//                                                 >
+//                                                     <X className="w-3 h-3" />
+//                                                     <span>Reject</span>
+//                                                 </button>
+//                                             </div>
+//                                         ) : (
+//                                             <button className="text-blue-600 hover:text-blue-800 p-1">
+//                                                 <Eye className="w-4 h-4" />
+//                                             </button>
+//                                         )}
+//                                     </td>
+//                                 </tr>
+//                             ))}
+//                         </tbody>
+//                     </table>
+//                 </div>
+//             </div>
+//         </div>
+//     );
+// };
+
+
+
+
 const TicketsContent = () => {
-    const [filterStatus, setFilterStatus] = useState('all');
+  const [filterStatus, setFilterStatus] = useState('all');
+  const [tickets, setTickets] = useState([]);
 
-    const tickets = [
-        { id: 'T001', student: 'John Doe', reason: 'Medical Emergency', date: '2024-01-15', status: 'pending' },
-        { id: 'T002', student: 'Jane Smith', reason: 'Family Function', date: '2024-01-14', status: 'approved' },
-        { id: 'T003', student: 'Mike Johnson', reason: 'Personal Work', date: '2024-01-14', status: 'rejected' },
-        { id: 'T004', student: 'Sarah Wilson', reason: 'Medical Appointment', date: '2024-01-13', status: 'pending' },
-        { id: 'T005', student: 'Tom Brown', reason: 'Job Interview', date: '2024-01-12', status: 'approved' },
-        { id: 'T006', student: 'Emily Davis', reason: 'Wedding Ceremony', date: '2024-01-11', status: 'pending' },
-    ];
+  const fetchTickets = async () => {
+    try {
+      const res = await axios.get('http://localhost:5000/api/tickets');
+      setTickets(res.data.tickets); // Assuming backend returns { tickets: [...] }
+    } catch (error) {
+      console.error('Error fetching tickets:', error);
+    }
+  };
 
-    const filteredTickets = filterStatus === 'all'
-        ? tickets
-        : tickets.filter(ticket => ticket.status === filterStatus);
+  const updateStatus = async (ticketId, newStatus) => {
+    try {
+      await axios.patch(`http://localhost:5000/api/tickets/${ticketId}`, {
+        status: newStatus,
+      });
+      fetchTickets(); // Refresh list after update
+    } catch (error) {
+      console.error(`Failed to update ticket ${ticketId}`, error);
+    }
+  };
 
-    const handleApprove = (ticketId) => {
-        alert(`Ticket ${ticketId} approved!`);
-    };
+  useEffect(() => {
+    fetchTickets();
+  }, []);
 
-    const handleReject = (ticketId) => {
-        alert(`Ticket ${ticketId} rejected!`);
-    };
+  const filteredTickets =
+    filterStatus === 'all'
+      ? tickets
+      : tickets.filter((ticket) => ticket.status === filterStatus);
 
-    return (
-        <div className="space-y-6">
-            <div>
-                <h1 className="text-2xl font-bold text-gray-800 mb-2">Tickets / Leave Requests</h1>
-                <p className="text-gray-600">Manage student leave requests and support tickets</p>
-            </div>
+  const handleApprove = (ticketId) => {
+    updateStatus(ticketId, 'approved');
+  };
 
-            {/* Filter Section */}
-            <div className="bg-white rounded-lg shadow-lg border border-gray-100 p-6">
-                <div className="flex items-center space-x-4">
-                    <span className="text-sm font-medium text-gray-600">Filter by Status:</span>
-                    <div className="flex space-x-2">
-                        <button
-                            onClick={() => setFilterStatus('all')}
-                            className={`px-3 py-1 rounded-full text-sm font-medium transition-all duration-200 ${filterStatus === 'all'
-                                ? 'bg-blue-100 text-blue-800'
-                                : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-                                }`}
-                        >
-                            All
-                        </button>
-                        <button
-                            onClick={() => setFilterStatus('pending')}
-                            className={`px-3 py-1 rounded-full text-sm font-medium transition-all duration-200 ${filterStatus === 'pending'
-                                ? 'bg-yellow-100 text-yellow-800'
-                                : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-                                }`}
-                        >
-                            Pending
-                        </button>
-                        <button
-                            onClick={() => setFilterStatus('approved')}
-                            className={`px-3 py-1 rounded-full text-sm font-medium transition-all duration-200 ${filterStatus === 'approved'
-                                ? 'bg-green-100 text-green-800'
-                                : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-                                }`}
-                        >
-                            Approved
-                        </button>
-                        <button
-                            onClick={() => setFilterStatus('rejected')}
-                            className={`px-3 py-1 rounded-full text-sm font-medium transition-all duration-200 ${filterStatus === 'rejected'
-                                ? 'bg-red-100 text-red-800'
-                                : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
-                                }`}
-                        >
-                            Rejected
-                        </button>
-                    </div>
-                </div>
-            </div>
+  const handleReject = (ticketId) => {
+    updateStatus(ticketId, 'rejected');
+  };
 
-            {/* Tickets Table */}
-            <div className="bg-white rounded-lg shadow-lg border border-gray-100 p-6">
-                <div className="overflow-x-auto">
-                    <table className="w-full table-auto">
-                        <thead>
-                            <tr className="border-b border-gray-200">
-                                <th className="text-left py-3 px-4 font-medium text-gray-600">Ticket ID</th>
-                                <th className="text-left py-3 px-4 font-medium text-gray-600">Student</th>
-                                <th className="text-left py-3 px-4 font-medium text-gray-600">Reason</th>
-                                <th className="text-left py-3 px-4 font-medium text-gray-600">Date</th>
-                                <th className="text-left py-3 px-4 font-medium text-gray-600">Status</th>
-                                <th className="text-left py-3 px-4 font-medium text-gray-600">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {filteredTickets.map((ticket) => (
-                                <tr key={ticket.id} className="border-b border-gray-100 hover:bg-gray-50">
-                                    <td className="py-3 px-4 font-medium">{ticket.id}</td>
-                                    <td className="py-3 px-4">{ticket.student}</td>
-                                    <td className="py-3 px-4">{ticket.reason}</td>
-                                    <td className="py-3 px-4 text-gray-600">{ticket.date}</td>
-                                    <td className="py-3 px-4">
-                                        <span className={`px-2 py-1 rounded-full text-xs font-medium ${ticket.status === 'pending' ? 'bg-yellow-100 text-yellow-800' :
-                                            ticket.status === 'approved' ? 'bg-green-100 text-green-800' :
-                                                'bg-red-100 text-red-800'
-                                            }`}>
-                                            {ticket.status.charAt(0).toUpperCase() + ticket.status.slice(1)}
-                                        </span>
-                                    </td>
-                                    <td className="py-3 px-4">
-                                        {ticket.status === 'pending' ? (
-                                            <div className="flex space-x-2">
-                                                <button
-                                                    onClick={() => handleApprove(ticket.id)}
-                                                    className="bg-green-600 text-white px-3 py-1 rounded-lg text-sm hover:bg-green-700 transition-colors duration-200 flex items-center space-x-1"
-                                                >
-                                                    <Check className="w-3 h-3" />
-                                                    <span>Approve</span>
-                                                </button>
-                                                <button
-                                                    onClick={() => handleReject(ticket.id)}
-                                                    className="bg-red-600 text-white px-3 py-1 rounded-lg text-sm hover:bg-red-700 transition-colors duration-200 flex items-center space-x-1"
-                                                >
-                                                    <X className="w-3 h-3" />
-                                                    <span>Reject</span>
-                                                </button>
-                                            </div>
-                                        ) : (
-                                            <button className="text-blue-600 hover:text-blue-800 p-1">
-                                                <Eye className="w-4 h-4" />
-                                            </button>
-                                        )}
-                                    </td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+  return (
+    <div className="space-y-6">
+      <div>
+        <h1 className="text-2xl font-bold text-gray-800 mb-2">Tickets / Leave Requests</h1>
+        <p className="text-gray-600">Manage student leave requests and support tickets</p>
+      </div>
+
+      {/* Filter Section */}
+      <div className="bg-white rounded-lg shadow-lg border border-gray-100 p-6">
+        <div className="flex items-center space-x-4">
+          <span className="text-sm font-medium text-gray-600">Filter by Status:</span>
+          <div className="flex space-x-2">
+            {['all', 'pending', 'approved', 'rejected'].map((status) => (
+              <button
+                key={status}
+                onClick={() => setFilterStatus(status)}
+                className={`px-3 py-1 rounded-full text-sm font-medium transition-all duration-200 ${
+                  filterStatus === status
+                    ? status === 'approved'
+                      ? 'bg-green-100 text-green-800'
+                      : status === 'pending'
+                      ? 'bg-yellow-100 text-yellow-800'
+                      : status === 'rejected'
+                      ? 'bg-red-100 text-red-800'
+                      : 'bg-blue-100 text-blue-800'
+                    : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                }`}
+              >
+                {status.charAt(0).toUpperCase() + status.slice(1)}
+              </button>
+            ))}
+          </div>
         </div>
-    );
+      </div>
+
+      {/* Tickets Table */}
+      <div className="bg-white rounded-lg shadow-lg border border-gray-100 p-6">
+        <div className="overflow-x-auto">
+          <table className="w-full table-auto">
+            <thead>
+              <tr className="border-b border-gray-200">
+                <th className="text-left py-3 px-4 font-medium text-gray-600">Ticket ID</th>
+                <th className="text-left py-3 px-4 font-medium text-gray-600">Student</th>
+                <th className="text-left py-3 px-4 font-medium text-gray-600">Reason</th>
+                <th className="text-left py-3 px-4 font-medium text-gray-600">Date</th>
+                <th className="text-left py-3 px-4 font-medium text-gray-600">Status</th>
+                <th className="text-left py-3 px-4 font-medium text-gray-600">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              {filteredTickets.map((ticket) => (
+                <tr key={ticket.id} className="border-b border-gray-100 hover:bg-gray-50">
+                  <td className="py-3 px-4 font-medium">{ticket.id}</td>
+                  <td className="py-3 px-4">{ticket.fullName}</td>
+                  <td className="py-3 px-4">{ticket.reason}</td>
+                  <td className="py-3 px-4 text-gray-600">
+                    {new Date(ticket.date).toLocaleDateString()}
+                  </td>
+                  <td className="py-3 px-4">
+                    <span
+                      className={`px-2 py-1 rounded-full text-xs font-medium ${
+                        ticket.status === 'pending'
+                          ? 'bg-yellow-100 text-yellow-800'
+                          : ticket.status === 'approved'
+                          ? 'bg-green-100 text-green-800'
+                          : 'bg-red-100 text-red-800'
+                      }`}
+                    >
+                      {ticket.status.charAt(0).toUpperCase() + ticket.status.slice(1)}
+                    </span>
+                  </td>
+                  <td className="py-3 px-4">
+                    {ticket.status === 'pending' ? (
+                      <div className="flex space-x-2">
+                        <button
+                          onClick={() => handleApprove(ticket.id)}
+                          className="bg-green-600 text-white px-3 py-1 rounded-lg text-sm hover:bg-green-700 transition-colors duration-200 flex items-center space-x-1"
+                        >
+                          <Check className="w-3 h-3" />
+                          <span>Approve</span>
+                        </button>
+                        <button
+                          onClick={() => handleReject(ticket.id)}
+                          className="bg-red-600 text-white px-3 py-1 rounded-lg text-sm hover:bg-red-700 transition-colors duration-200 flex items-center space-x-1"
+                        >
+                          <X className="w-3 h-3" />
+                          <span>Reject</span>
+                        </button>
+                      </div>
+                    ) : (
+                      <button className="text-blue-600 hover:text-blue-800 p-1">
+                        <Eye className="w-4 h-4" />
+                      </button>
+                    )}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  );
 };
+
+
+
 
 // Reports & Analytics Content Component
 const ReportsContent = () => {

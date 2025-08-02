@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Footer from '../components/Footer';
 import apiService from '../services/apiService'; // Adjust path as needed
+import axios from 'axios';
+
 
 
 import {
@@ -478,203 +480,422 @@ const AbsenceHistoryContent = () => {
 };
 
 // Tickets Component
+// const TicketsContent = () => {
+//     const [showCreateForm, setShowCreateForm] = useState(false);
+//     const [formData, setFormData] = useState({
+//         subject: '',
+//         reason: 'absence',
+//         date: '',
+//         description: ''
+//     });
+
+//     const tickets = [
+//         { id: 'TKT-001', type: 'Leave Request', subject: 'Mathematics', date: '2024-01-20', status: 'Pending', description: 'Medical appointment' },
+//         { id: 'TKT-002', type: 'Absence Report', subject: 'Physics', date: '2024-01-18', status: 'Approved', description: 'Family emergency' },
+//         { id: 'TKT-003', type: 'Complaint', subject: 'Computer Science', date: '2024-01-15', status: 'Resolved', description: 'Technical issue with lab equipment' },
+//         { id: 'TKT-004', type: 'Leave Request', subject: 'Chemistry', date: '2024-01-12', status: 'Denied', description: 'Personal work' },
+//     ];
+
+//     const subjects = ['Mathematics', 'Physics', 'Computer Science', 'Chemistry', 'English', 'History'];
+
+//     const handleInputChange = (e) => {
+//         setFormData({
+//             ...formData,
+//             [e.target.name]: e.target.value
+//         });
+//     };
+
+//     const handleSubmit = (e) => {
+//         e.preventDefault();
+//         alert('Ticket submitted successfully!');
+//         setShowCreateForm(false);
+//         setFormData({ subject: '', reason: 'absence', date: '', description: '' });
+//     };
+
+//     const getStatusColor = (status) => {
+//         switch (status.toLowerCase()) {
+//             case 'pending': return 'bg-yellow-100 text-yellow-800';
+//             case 'approved': return 'bg-green-100 text-green-800';
+//             case 'resolved': return 'bg-blue-100 text-blue-800';
+//             case 'denied': return 'bg-red-100 text-red-800';
+//             default: return 'bg-gray-100 text-gray-800';
+//         }
+//     };
+
+//     return (
+//         <div className="space-y-6">
+//             <div className="flex justify-between items-center">
+//                 <div>
+//                     <h1 className="text-2xl font-bold text-gray-800 mb-2">Tickets</h1>
+//                     <p className="text-gray-600">Manage your requests and complaints</p>
+//                 </div>
+//                 <button
+//                     onClick={() => setShowCreateForm(!showCreateForm)}
+//                     className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-4 py-2 rounded-lg font-medium hover:shadow-lg transition-all duration-200 flex items-center space-x-2"
+//                 >
+//                     <Plus className="w-4 h-4" />
+//                     <span>Create Ticket</span>
+//                 </button>
+//             </div>
+
+//             {/* Create Ticket Form */}
+//             {showCreateForm && (
+//                 <div className="bg-white rounded-lg shadow-lg border border-gray-100 p-6">
+//                     <h2 className="text-lg font-semibold text-gray-800 mb-4">Create New Ticket</h2>
+//                     <form onSubmit={handleSubmit} className="space-y-4">
+//                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+//                             <div>
+//                                 <label className="block text-sm font-medium text-gray-700 mb-2">Subject (Optional)</label>
+//                                 <select
+//                                     name="subject"
+//                                     value={formData.subject}
+//                                     onChange={handleInputChange}
+//                                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+//                                 >
+//                                     <option value="">Select Subject</option>
+//                                     {subjects.map(subject => (
+//                                         <option key={subject} value={subject}>{subject}</option>
+//                                     ))}
+//                                 </select>
+//                             </div>
+//                             <div>
+//                                 <label className="block text-sm font-medium text-gray-700 mb-2">Reason</label>
+//                                 <select
+//                                     name="reason"
+//                                     value={formData.reason}
+//                                     onChange={handleInputChange}
+//                                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+//                                     required
+//                                 >
+//                                     <option value="absence">Absence Report</option>
+//                                     <option value="leave">Leave Request</option>
+//                                     <option value="complaint">Complaint</option>
+//                                     <option value="other">Other</option>
+//                                 </select>
+//                             </div>
+//                         </div>
+
+//                         <div>
+//                             <label className="block text-sm font-medium text-gray-700 mb-2">Date</label>
+//                             <input
+//                                 type="date"
+//                                 name="date"
+//                                 value={formData.date}
+//                                 onChange={handleInputChange}
+//                                 className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+//                                 required
+//                             />
+//                         </div>
+
+//                         <div>
+//                             <label className="block text-sm font-medium text-gray-700 mb-2">Description</label>
+//                             <textarea
+//                                 name="description"
+//                                 value={formData.description}
+//                                 onChange={handleInputChange}
+//                                 rows={4}
+//                                 className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+//                                 placeholder="Provide detailed description..."
+//                                 required
+//                             />
+//                         </div>
+
+//                         <div>
+//                             <label className="block text-sm font-medium text-gray-700 mb-2">Attachment (Optional)</label>
+//                             <div className="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center">
+//                                 <Upload className="w-8 h-8 text-gray-400 mx-auto mb-2" />
+//                                 <p className="text-sm text-gray-600">Click to upload or drag and drop</p>
+//                                 <p className="text-xs text-gray-500">PDF, DOC, JPG up to 10MB</p>
+//                             </div>
+//                         </div>
+
+//                         <div className="flex space-x-3">
+//                             <button
+//                                 type="submit"
+//                                 className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-2 rounded-lg font-medium hover:shadow-lg transition-all duration-200"
+//                             >
+//                                 Submit Ticket
+//                             </button>
+//                             <button
+//                                 type="button"
+//                                 onClick={() => setShowCreateForm(false)}
+//                                 className="bg-gray-100 text-gray-700 px-6 py-2 rounded-lg font-medium hover:bg-gray-200 transition-all duration-200"
+//                             >
+//                                 Cancel
+//                             </button>
+//                         </div>
+//                     </form>
+//                 </div>
+//             )}
+
+//             {/* Tickets List */}
+//             <div className="bg-white rounded-lg shadow-lg border border-gray-100 overflow-hidden">
+//                 <div className="px-6 py-4 border-b border-gray-200">
+//                     <h3 className="text-lg font-semibold text-gray-800">My Tickets</h3>
+//                 </div>
+//                 <div className="overflow-x-auto">
+//                     <table className="w-full">
+//                         <thead className="bg-gray-50">
+//                             <tr>
+//                                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Ticket ID</th>
+//                                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Type</th>
+//                                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Subject</th>
+//                                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
+//                                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+//                                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Description</th>
+//                             </tr>
+//                         </thead>
+//                         <tbody className="bg-white divide-y divide-gray-200">
+//                             {tickets.map((ticket, index) => (
+//                                 <tr key={index} className="hover:bg-gray-50">
+//                                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+//                                         {ticket.id}
+//                                     </td>
+//                                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+//                                         {ticket.type}
+//                                     </td>
+//                                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+//                                         {ticket.subject}
+//                                     </td>
+//                                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+//                                         {new Date(ticket.date).toLocaleDateString()}
+//                                     </td>
+//                                     <td className="px-6 py-4 whitespace-nowrap">
+//                                         <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${getStatusColor(ticket.status)}`}>
+//                                             {ticket.status}
+//                                         </span>
+//                                     </td>
+//                                     <td className="px-6 py-4 text-sm text-gray-900 max-w-xs truncate">
+//                                         {ticket.description}
+//                                     </td>
+//                                 </tr>
+//                             ))}
+//                         </tbody>
+//                     </table>
+//                 </div>
+//             </div>
+//         </div>
+//     );
+// };
+
+
+
+
+
 const TicketsContent = () => {
-    const [showCreateForm, setShowCreateForm] = useState(false);
-    const [formData, setFormData] = useState({
-        subject: '',
-        reason: 'absence',
-        date: '',
-        description: ''
+  const [showCreateForm, setShowCreateForm] = useState(false);
+  const [formData, setFormData] = useState({
+    subject: '',
+    reason: 'absence',
+    date: '',
+    description: ''
+  });
+  const [tickets, setTickets] = useState([]);
+  
+  // TEMP: Replace this with actual student data (e.g., from context or localStorage)
+  const studentId = 'STU123'; 
+  const fullName = 'John Doe';
+
+  const subjects = ['Mathematics', 'Physics', 'Computer Science', 'Chemistry', 'English', 'History'];
+
+  // Fetch tickets on mount
+  useEffect(() => {
+    const fetchTickets = async () => {
+      try {
+        const res = await axios.get(`http://localhost:5000/api/tickets?studentId=${studentId}`);
+        setTickets(res.data.tickets);
+      } catch (error) {
+        console.error('Error fetching tickets:', error);
+      }
+    };
+
+    fetchTickets();
+  }, [studentId]);
+
+  // Handle input change
+  const handleInputChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
     });
+  };
 
-    const tickets = [
-        { id: 'TKT-001', type: 'Leave Request', subject: 'Mathematics', date: '2024-01-20', status: 'Pending', description: 'Medical appointment' },
-        { id: 'TKT-002', type: 'Absence Report', subject: 'Physics', date: '2024-01-18', status: 'Approved', description: 'Family emergency' },
-        { id: 'TKT-003', type: 'Complaint', subject: 'Computer Science', date: '2024-01-15', status: 'Resolved', description: 'Technical issue with lab equipment' },
-        { id: 'TKT-004', type: 'Leave Request', subject: 'Chemistry', date: '2024-01-12', status: 'Denied', description: 'Personal work' },
-    ];
+  // Submit ticket
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const payload = {
+        ...formData,
+        studentId,
+        fullName
+      };
 
-    const subjects = ['Mathematics', 'Physics', 'Computer Science', 'Chemistry', 'English', 'History'];
+      await axios.post('http://localhost:5000/api/tickets', payload);
+      alert('Ticket submitted successfully!');
+      setShowCreateForm(false);
+      setFormData({ subject: '', reason: 'absence', date: '', description: '' });
 
-    const handleInputChange = (e) => {
-        setFormData({
-            ...formData,
-            [e.target.name]: e.target.value
-        });
-    };
+      // Refresh tickets after creation
+      const res = await axios.get(`http://localhost:5000/api/tickets?studentId=${studentId}`);
+      setTickets(res.data.tickets);
+    } catch (error) {
+      console.error('Ticket submission failed:', error);
+      alert('Failed to submit ticket');
+    }
+  };
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        alert('Ticket submitted successfully!');
-        setShowCreateForm(false);
-        setFormData({ subject: '', reason: 'absence', date: '', description: '' });
-    };
+  // Status color
+  const getStatusColor = (status) => {
+    switch (status.toLowerCase()) {
+      case 'pending': return 'bg-yellow-100 text-yellow-800';
+      case 'approved': return 'bg-green-100 text-green-800';
+      case 'resolved': return 'bg-blue-100 text-blue-800';
+      case 'denied': return 'bg-red-100 text-red-800';
+      default: return 'bg-gray-100 text-gray-800';
+    }
+  };
 
-    const getStatusColor = (status) => {
-        switch (status.toLowerCase()) {
-            case 'pending': return 'bg-yellow-100 text-yellow-800';
-            case 'approved': return 'bg-green-100 text-green-800';
-            case 'resolved': return 'bg-blue-100 text-blue-800';
-            case 'denied': return 'bg-red-100 text-red-800';
-            default: return 'bg-gray-100 text-gray-800';
-        }
-    };
-
-    return (
-        <div className="space-y-6">
-            <div className="flex justify-between items-center">
-                <div>
-                    <h1 className="text-2xl font-bold text-gray-800 mb-2">Tickets</h1>
-                    <p className="text-gray-600">Manage your requests and complaints</p>
-                </div>
-                <button
-                    onClick={() => setShowCreateForm(!showCreateForm)}
-                    className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-4 py-2 rounded-lg font-medium hover:shadow-lg transition-all duration-200 flex items-center space-x-2"
-                >
-                    <Plus className="w-4 h-4" />
-                    <span>Create Ticket</span>
-                </button>
-            </div>
-
-            {/* Create Ticket Form */}
-            {showCreateForm && (
-                <div className="bg-white rounded-lg shadow-lg border border-gray-100 p-6">
-                    <h2 className="text-lg font-semibold text-gray-800 mb-4">Create New Ticket</h2>
-                    <form onSubmit={handleSubmit} className="space-y-4">
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-2">Subject (Optional)</label>
-                                <select
-                                    name="subject"
-                                    value={formData.subject}
-                                    onChange={handleInputChange}
-                                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                                >
-                                    <option value="">Select Subject</option>
-                                    {subjects.map(subject => (
-                                        <option key={subject} value={subject}>{subject}</option>
-                                    ))}
-                                </select>
-                            </div>
-                            <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-2">Reason</label>
-                                <select
-                                    name="reason"
-                                    value={formData.reason}
-                                    onChange={handleInputChange}
-                                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                                    required
-                                >
-                                    <option value="absence">Absence Report</option>
-                                    <option value="leave">Leave Request</option>
-                                    <option value="complaint">Complaint</option>
-                                    <option value="other">Other</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-2">Date</label>
-                            <input
-                                type="date"
-                                name="date"
-                                value={formData.date}
-                                onChange={handleInputChange}
-                                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                                required
-                            />
-                        </div>
-
-                        <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-2">Description</label>
-                            <textarea
-                                name="description"
-                                value={formData.description}
-                                onChange={handleInputChange}
-                                rows={4}
-                                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                                placeholder="Provide detailed description..."
-                                required
-                            />
-                        </div>
-
-                        <div>
-                            <label className="block text-sm font-medium text-gray-700 mb-2">Attachment (Optional)</label>
-                            <div className="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center">
-                                <Upload className="w-8 h-8 text-gray-400 mx-auto mb-2" />
-                                <p className="text-sm text-gray-600">Click to upload or drag and drop</p>
-                                <p className="text-xs text-gray-500">PDF, DOC, JPG up to 10MB</p>
-                            </div>
-                        </div>
-
-                        <div className="flex space-x-3">
-                            <button
-                                type="submit"
-                                className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-2 rounded-lg font-medium hover:shadow-lg transition-all duration-200"
-                            >
-                                Submit Ticket
-                            </button>
-                            <button
-                                type="button"
-                                onClick={() => setShowCreateForm(false)}
-                                className="bg-gray-100 text-gray-700 px-6 py-2 rounded-lg font-medium hover:bg-gray-200 transition-all duration-200"
-                            >
-                                Cancel
-                            </button>
-                        </div>
-                    </form>
-                </div>
-            )}
-
-            {/* Tickets List */}
-            <div className="bg-white rounded-lg shadow-lg border border-gray-100 overflow-hidden">
-                <div className="px-6 py-4 border-b border-gray-200">
-                    <h3 className="text-lg font-semibold text-gray-800">My Tickets</h3>
-                </div>
-                <div className="overflow-x-auto">
-                    <table className="w-full">
-                        <thead className="bg-gray-50">
-                            <tr>
-                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Ticket ID</th>
-                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Type</th>
-                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Subject</th>
-                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
-                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-                                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Description</th>
-                            </tr>
-                        </thead>
-                        <tbody className="bg-white divide-y divide-gray-200">
-                            {tickets.map((ticket, index) => (
-                                <tr key={index} className="hover:bg-gray-50">
-                                    <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                                        {ticket.id}
-                                    </td>
-                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                        {ticket.type}
-                                    </td>
-                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                        {ticket.subject}
-                                    </td>
-                                    <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                                        {new Date(ticket.date).toLocaleDateString()}
-                                    </td>
-                                    <td className="px-6 py-4 whitespace-nowrap">
-                                        <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${getStatusColor(ticket.status)}`}>
-                                            {ticket.status}
-                                        </span>
-                                    </td>
-                                    <td className="px-6 py-4 text-sm text-gray-900 max-w-xs truncate">
-                                        {ticket.description}
-                                    </td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+  return (
+    <div className="space-y-6">
+      {/* Header */}
+      <div className="flex justify-between items-center">
+        <div>
+          <h1 className="text-2xl font-bold text-gray-800 mb-2">Tickets</h1>
+          <p className="text-gray-600">Manage your requests and complaints</p>
         </div>
-    );
+        <button
+          onClick={() => setShowCreateForm(!showCreateForm)}
+          className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-4 py-2 rounded-lg font-medium hover:shadow-lg transition-all duration-200 flex items-center space-x-2"
+        >
+          <Plus className="w-4 h-4" />
+          <span>Create Ticket</span>
+        </button>
+      </div>
+
+      {/* Create Ticket Form */}
+      {showCreateForm && (
+        <div className="bg-white rounded-lg shadow-lg border border-gray-100 p-6">
+          <h2 className="text-lg font-semibold text-gray-800 mb-4">Create New Ticket</h2>
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Subject (Optional)</label>
+                <select
+                  name="subject"
+                  value={formData.subject}
+                  onChange={handleInputChange}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                >
+                  <option value="">Select Subject</option>
+                  {subjects.map(subject => (
+                    <option key={subject} value={subject}>{subject}</option>
+                  ))}
+                </select>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Reason</label>
+                <select
+                  name="reason"
+                  value={formData.reason}
+                  onChange={handleInputChange}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  required
+                >
+                  <option value="absence">Absence Report</option>
+                  <option value="leave">Leave Request</option>
+                  <option value="complaint">Complaint</option>
+                  <option value="other">Other</option>
+                </select>
+              </div>
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Date</label>
+              <input
+                type="date"
+                name="date"
+                value={formData.date}
+                onChange={handleInputChange}
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                required
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Description</label>
+              <textarea
+                name="description"
+                value={formData.description}
+                onChange={handleInputChange}
+                rows={4}
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                placeholder="Provide detailed description..."
+                required
+              />
+            </div>
+
+            <div className="flex space-x-3">
+              <button
+                type="submit"
+                className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-2 rounded-lg font-medium hover:shadow-lg transition-all duration-200"
+              >
+                Submit Ticket
+              </button>
+              <button
+                type="button"
+                onClick={() => setShowCreateForm(false)}
+                className="bg-gray-100 text-gray-700 px-6 py-2 rounded-lg font-medium hover:bg-gray-200 transition-all duration-200"
+              >
+                Cancel
+              </button>
+            </div>
+          </form>
+        </div>
+      )}
+
+      {/* Tickets List */}
+      <div className="bg-white rounded-lg shadow-lg border border-gray-100 overflow-hidden">
+        <div className="px-6 py-4 border-b border-gray-200">
+          <h3 className="text-lg font-semibold text-gray-800">My Tickets</h3>
+        </div>
+        <div className="overflow-x-auto">
+          <table className="w-full">
+            <thead className="bg-gray-50">
+              <tr>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Reason</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Subject</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Description</th>
+              </tr>
+            </thead>
+            <tbody className="bg-white divide-y divide-gray-200">
+              {tickets.map((ticket) => (
+                <tr key={ticket.id} className="hover:bg-gray-50">
+                  <td className="px-6 py-4 text-sm text-gray-900">{ticket.id}</td>
+                  <td className="px-6 py-4 text-sm text-gray-900 capitalize">{ticket.reason}</td>
+                  <td className="px-6 py-4 text-sm text-gray-900">{ticket.subject || '-'}</td>
+                  <td className="px-6 py-4 text-sm text-gray-900">{new Date(ticket.date).toLocaleDateString()}</td>
+                  <td className="px-6 py-4">
+                    <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${getStatusColor(ticket.status)}`}>
+                      {ticket.status}
+                    </span>
+                  </td>
+                  <td className="px-6 py-4 text-sm text-gray-900 max-w-xs truncate">{ticket.description}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  );
 };
+
+
+
+
 
 // Main StudentDashboard Component
 const StudentDashboard = () => {
