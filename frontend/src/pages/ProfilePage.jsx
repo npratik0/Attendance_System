@@ -390,6 +390,7 @@
 
 import React, { useState, useEffect } from 'react';
 import apiService from '../services/apiService'; // Adjust path as needed
+import {Link} from 'react-router-dom';
 import {
     User,
     Mail,
@@ -421,7 +422,7 @@ const Profile = () => {
         gender: '',
         address: '',
         department: '',
-        userType: 'student',
+        userType: '',
         studentId: '',
         employeeId: '',
         semester: ''
@@ -442,7 +443,7 @@ const Profile = () => {
                         gender: user.gender || '',
                         address: user.address || '',
                         department: user.department || '',
-                        userType: user.role || 'student',
+                        userType: user.role || '',
                         studentId: user.studentId || '',
                         employeeId: user.employeeId || '',
                         semester: user.semester || ''
@@ -597,6 +598,18 @@ const Profile = () => {
                                     </div>
                                 </div>
                             </div>
+
+                            {/* Change Password Link */}
+                            <div className="mt-4 text-center md:text-left">
+                            <a
+                                // href="/change-password"
+                                className="inline-flex items-center px-4 py-2 bg-white border border-blue-600 text-blue-600 rounded-lg font-medium shadow-sm hover:bg-blue-600 hover:text-white transition-all duration-200"
+                            >
+                                {/* <Lock className="w-4 h-4 mr-2" /> */}
+                               <Link to = 'change-password'> Change Password </Link> 
+                            </a>
+                            </div>
+
 
                             {/* Edit/Save Buttons */}
                             <div className="absolute top-6 right-6">

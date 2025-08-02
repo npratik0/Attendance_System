@@ -1,4 +1,5 @@
 const { User } = require('../models');
+const bcrypt = require('bcryptjs');
 
 // Get user profile
 exports.getProfile = async (req, res) => {
@@ -100,4 +101,28 @@ exports.getCurrentUser = async (req, res) => {
             message: 'Failed to fetch user data'
         });
     }
+};
+
+exports.changePassword = async (req, res) => {
+  const { currentPassword, newPassword } = req.body;
+
+  try {
+    const user = await User.findByPk(req.user.id); // `req.user.id` set by auth middleware
+
+    if (!user) return res.status(404).json({ message: 'User not found' });
+
+    const isMatch = await bcrypt.compare(currentPassword, user.password);
+    if (!isMatch) {
+      return res.status(400).json({ message: 'Current password is incorrect' });
+    }
+
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+    user.password = hashedPassword;
+    await user.save();
+
+    return res.status(200).json({ message: 'Password changed successfully' });
+  } catch (error) {
+    console.error('Change password error:', error);
+    return res.status(500).json({ message: 'Internal server error' });
+  }
 };

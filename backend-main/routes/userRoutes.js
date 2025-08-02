@@ -15,4 +15,7 @@ router.get('/profile', userController.getProfile);
 // Update profile
 router.put('/profile', userController.updateProfile);
 
+// Change Password
+router.post('/change-password', verifyToken, userController.changePassword);
+
 module.exports = router;

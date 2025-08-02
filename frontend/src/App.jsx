@@ -10,6 +10,7 @@ import StudentDashboard from './pages/StudentDashboard'; // ✅ NEW: Student das
 import AdminLogin from './pages/AdminLogin';
 import AdminDashboard from './pages/AdminDashboard'; // ✅ Import your new file
 import ProtectedRoute from './pages/ProtectedRoutes';
+import ChangePassword from './pages/ChangePassword';
 
 
 
@@ -66,6 +67,7 @@ function App() {
         <Route path="/admin-login" element={<AdminLogin />} />
         
         <Route path="/admin-dashboard" element={<AdminDashboard />} /> {/* ✅ Added route */}
+        <Route path="/profile/change-password" element={<ChangePassword />} />
         
 
         <Route element={<ProtectedRoute />}>
