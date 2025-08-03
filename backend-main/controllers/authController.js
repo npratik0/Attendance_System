@@ -126,21 +126,69 @@ exports.register = async (req, res) => {
   }
 };
 
+// exports.login = async (req, res) => {
+//   try {
+//     const { studentId, password, role } = req.body;
+
+//     const user = await User.findOne({ where: { studentId, role } });
+//     if (!user) return res.status(404).json({ message: "User not found" });
+
+//     const isMatch = await bcrypt.compare(password, user.password);
+//     if (!isMatch) return res.status(400).json({ message: "Incorrect password" });
+
+//     // const token = jwt.sign(
+//     //   { id: user.id, role: user.role },
+//     //   process.env.JWT_SECRET,
+//     //   { expiresIn: '1d' }
+//     // );
+//     const token = jwt.sign(
+//       {
+//         id: user.id,
+//         role: user.role,
+//         fullName: user.fullName,
+//         email: user.email,
+//         phone: user.phone
+//       },
+//       process.env.JWT_SECRET,
+//       { expiresIn: '1d' }
+//     );
+    
+
+//     res.status(200).json({
+//       token,
+//       user: {
+//         id: user.id,
+//         fullName: user.fullName,
+//         email: user.email,
+//         phone: user.phone,
+//         role: user.role
+//       }
+//     });
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).json({ message: "Login failed" });
+//   }
+// };
+
 exports.login = async (req, res) => {
   try {
-    const { studentId, password, role } = req.body;
+    const { studentId, employeeId, password, role } = req.body;
 
-    const user = await User.findOne({ where: { studentId, role } });
+    let user;
+
+    if (role === 'student') {
+      user = await User.findOne({ where: { studentId, role } });
+    } else if (role === 'teacher') {
+      user = await User.findOne({ where: { employeeId, role } });
+    } else {
+      return res.status(400).json({ message: "Invalid role" });
+    }
+
     if (!user) return res.status(404).json({ message: "User not found" });
 
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) return res.status(400).json({ message: "Incorrect password" });
 
-    // const token = jwt.sign(
-    //   { id: user.id, role: user.role },
-    //   process.env.JWT_SECRET,
-    //   { expiresIn: '1d' }
-    // );
     const token = jwt.sign(
       {
         id: user.id,
@@ -152,7 +200,6 @@ exports.login = async (req, res) => {
       process.env.JWT_SECRET,
       { expiresIn: '1d' }
     );
-    
 
     res.status(200).json({
       token,
@@ -169,3 +216,4 @@ exports.login = async (req, res) => {
     res.status(500).json({ message: "Login failed" });
   }
 };
+

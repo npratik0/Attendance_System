@@ -57,7 +57,7 @@ const Login = ({ onSwitchToSignup }) => {
             const loginData =
                 userType === 'student'
                     ? { studentId: formData.studentId, password: formData.password, role: 'student' }
-                    : { email: formData.email, password: formData.password, role: 'teacher' };
+                    : { employeeId: formData.email, password: formData.password, role: 'teacher' };
 
             const response = await fetch('http://localhost:5000/api/auth/login', {
                 method: 'POST',
