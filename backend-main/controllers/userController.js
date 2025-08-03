@@ -104,25 +104,77 @@ exports.getCurrentUser = async (req, res) => {
 };
 
 exports.changePassword = async (req, res) => {
-  const { currentPassword, newPassword } = req.body;
+    const { currentPassword, newPassword } = req.body;
 
-  try {
-    const user = await User.findByPk(req.user.id); // `req.user.id` set by auth middleware
+    try {
+        const user = await User.findByPk(req.user.id); // `req.user.id` set by auth middleware
 
-    if (!user) return res.status(404).json({ message: 'User not found' });
+        if (!user) return res.status(404).json({ message: 'User not found' });
 
-    const isMatch = await bcrypt.compare(currentPassword, user.password);
-    if (!isMatch) {
-      return res.status(400).json({ message: 'Current password is incorrect' });
+        const isMatch = await bcrypt.compare(currentPassword, user.password);
+        if (!isMatch) {
+            return res.status(400).json({ message: 'Current password is incorrect' });
+        }
+
+        const hashedPassword = await bcrypt.hash(newPassword, 10);
+        user.password = hashedPassword;
+        await user.save();
+
+        return res.status(200).json({ message: 'Password changed successfully' });
+    } catch (error) {
+        console.error('Change password error:', error);
+        return res.status(500).json({ message: 'Internal server error' });
     }
+};
 
-    const hashedPassword = await bcrypt.hash(newPassword, 10);
-    user.password = hashedPassword;
-    await user.save();
+// Add user (Admin only)
+exports.addUser = async (req, res) => {
+    try {
+        const {
+            fullName,
+            email,
+            phone,
+            password,
+            role,
+            studentId,
+            employeeId,
+            department,
+            semester,
+            dateOfBirth,
+            gender,
+            address
+        } = req.body;
 
-    return res.status(200).json({ message: 'Password changed successfully' });
-  } catch (error) {
-    console.error('Change password error:', error);
-    return res.status(500).json({ message: 'Internal server error' });
-  }
+        // Ensure photo was uploaded
+        if (!req.file || !req.file.path) {
+            return res.status(400).json({ message: "Photo is required" });
+        }
+
+        const hashedPassword = await bcrypt.hash(password, 10);
+
+        const newUser = await User.create({
+            fullName,
+            email,
+            phone,
+            password: hashedPassword,
+            role,
+            studentId,
+            employeeId,
+            department,
+            semester,
+            dateOfBirth,
+            gender,
+            address,
+            profileImage: req.file.path // Cloudinary URL
+        });
+
+        res.status(201).json({
+            success: true,
+            message: "User added successfully",
+            user: newUser
+        });
+    } catch (error) {
+        console.error("Add user error:", error);
+        res.status(500).json({ message: "Internal server error" });
+    }
 };
