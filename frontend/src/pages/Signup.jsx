@@ -16,7 +16,8 @@ const Signup = ({ onSwitchToLogin }) => {
         confirmPassword: '',
         department: '',
         semester: '',
-        employeeId: ''
+        employeeId: '',
+        profileImage: null // Add this to track the file
     });
 
     const handleInputChange = (e) => {
@@ -25,12 +26,6 @@ const Signup = ({ onSwitchToLogin }) => {
             [e.target.name]: e.target.value
         });
     };
-
-    // const handleSubmit = (e) => {
-    //     e.preventDefault();
-    //     // Handle signup logic here
-    //     console.log('Signup attempt:', { userType, formData });
-    // };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -46,29 +41,35 @@ const Signup = ({ onSwitchToLogin }) => {
             return;
         }
 
-        const payload = {
-            fullName: formData.fullName,
-            email: formData.email,
-            phone: formData.phone,
-            password: formData.password,
-            confirmPassword: formData.confirmPassword, // ✅ required
-            role: userType,
-            department: formData.department
+        // Create FormData object to handle file upload
+        const formDataToSend = new FormData();
 
-        };
+        // Add all form fields to FormData
+        formDataToSend.append('fullName', formData.fullName);
+        formDataToSend.append('email', formData.email);
+        formDataToSend.append('phone', formData.phone);
+        formDataToSend.append('password', formData.password);
+        formDataToSend.append('confirmPassword', formData.confirmPassword);
+        formDataToSend.append('role', userType);
+        formDataToSend.append('department', formData.department);
 
         if (userType === 'student') {
-            payload.studentId = formData.studentId;
-            payload.semester = formData.semester;
+            formDataToSend.append('studentId', formData.studentId);
+            formDataToSend.append('semester', formData.semester);
         } else {
-            payload.employeeId = formData.employeeId;
+            formDataToSend.append('employeeId', formData.employeeId);
+        }
+
+        // Add the profile image file if it exists
+        if (formData.profileImage) {
+            formDataToSend.append('profileImage', formData.profileImage);
         }
 
         try {
             const response = await fetch('http://localhost:5000/api/auth/signup', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(payload)
+                // Don't set Content-Type header when using FormData - let browser set it
+                body: formDataToSend
             });
 
             const data = await response.json();
@@ -78,15 +79,12 @@ const Signup = ({ onSwitchToLogin }) => {
             }
 
             alert('Account created successfully!');
-            // 
             navigate('/login');
         } catch (error) {
             console.error('Signup error:', error);
             alert(error.message);
         }
     };
-
-
 
     const toggleUserType = (type) => {
         setUserType(type);
@@ -99,7 +97,8 @@ const Signup = ({ onSwitchToLogin }) => {
             confirmPassword: '',
             department: '',
             semester: '',
-            employeeId: ''
+            employeeId: '',
+            profileImage: null
         });
     };
 
@@ -145,7 +144,7 @@ const Signup = ({ onSwitchToLogin }) => {
                         </div>
 
                         {/* Signup Form */}
-                        <div className="space-y-4">
+                        <form onSubmit={handleSubmit} className="space-y-4">
                             {/* Full Name */}
                             <div>
                                 <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -358,25 +357,47 @@ const Signup = ({ onSwitchToLogin }) => {
                                 </div>
                             </div>
 
+                            {/* Upload Photo */}
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700 mb-2">
+                                    Upload Photo
+                                </label>
+                                <div className="relative flex items-center">
+                                    <div className="absolute left-3 text-gray-400">
+                                        <Camera className="w-5 h-5" />
+                                    </div>
+                                    <label
+                                        htmlFor="profileImage"
+                                        className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg cursor-pointer text-gray-600 bg-white hover:bg-gray-50 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                                    >
+                                        {formData.profileImage ? formData.profileImage.name : 'Click to upload photo'}
+                                    </label>
+                                    <input
+                                        id="profileImage"
+                                        type="file"
+                                        name="profileImage"
+                                        accept="image/*"
+                                        className="hidden"
+                                        onChange={(e) => setFormData({ ...formData, profileImage: e.target.files[0] })}
+                                    />
+                                </div>
+                                <p className="text-xs text-gray-500 mt-1">
+                                    Upload a clear front-facing photo for face recognition
+                                </p>
+                            </div>
+
                             {/* Create Account Button */}
                             <button
-                                onClick={handleSubmit}
+                                type="submit"
                                 className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white py-3 px-4 rounded-lg font-medium hover:from-blue-700 hover:to-purple-700 transform hover:scale-105 transition-all duration-200 shadow-lg mt-6"
                             >
                                 Add Account
                             </button>
-                        </div>
+                        </form>
 
                         {/* Login Link */}
                         <div className="text-center mt-6">
                             <p className="text-gray-600">
-                                {' '}
-                                {/* <button
-                                    onClick={onSwitchToLogin}
-                                    className="text-blue-600 hover:text-blue-700 font-medium"
-                                >
-                                    Sign in here
-                                </button> */}
                                 <Link to="/login" className="text-blue-600 hover:text-blue-700 font-medium">
                                     Login in here
                                 </Link>
