@@ -107,7 +107,7 @@ const Login = ({ onSwitchToSignup }) => {
                                 <Camera className="w-10 h-10 text-white" />
                             </div>
                             <h1 className="text-2xl font-bold text-gray-800 mb-2">Welcome Back</h1>
-                            <p className="text-gray-600">Sign in to access your attendance dashboard</p>
+                            <p className="text-gray-600">Sign in to access your respective dashboard</p>
                         </div>
 
                         {/* User Type Toggle */}
@@ -116,8 +116,8 @@ const Login = ({ onSwitchToSignup }) => {
                                 <button
                                     onClick={() => toggleUserType('student')}
                                     className={`flex items-center justify-center space-x-2 py-3 px-4 rounded-md font-medium transition-all duration-200 ${userType === 'student'
-                                            ? 'bg-white text-blue-600 shadow-sm'
-                                            : 'text-gray-600 hover:text-gray-800'
+                                        ? 'bg-white text-blue-600 shadow-sm'
+                                        : 'text-gray-600 hover:text-gray-800'
                                         }`}
                                 >
                                     <GraduationCap className="w-4 h-4" />
@@ -126,8 +126,8 @@ const Login = ({ onSwitchToSignup }) => {
                                 <button
                                     onClick={() => toggleUserType('teacher')}
                                     className={`flex items-center justify-center space-x-2 py-3 px-4 rounded-md font-medium transition-all duration-200 ${userType === 'teacher'
-                                            ? 'bg-white text-purple-600 shadow-sm'
-                                            : 'text-gray-600 hover:text-gray-800'
+                                        ? 'bg-white text-purple-600 shadow-sm'
+                                        : 'text-gray-600 hover:text-gray-800'
                                         }`}
                                 >
                                     <Users className="w-4 h-4" />
@@ -141,14 +141,14 @@ const Login = ({ onSwitchToSignup }) => {
                             {/* Student ID or Email Field */}
                             <div>
                                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                                    {userType === 'student' ? 'Student ID' : 'Email / Username'}
+                                    {userType === 'student' ? 'Student ID' : 'Employee ID'}
                                 </label>
                                 <div className="relative">
                                     <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                                         {userType === 'student' ? (
                                             <CreditCard className="w-5 h-5 text-gray-400" />
                                         ) : (
-                                            <Mail className="w-5 h-5 text-gray-400" />
+                                            <CreditCard className="w-5 h-5 text-gray-400" />
                                         )}
                                     </div>
                                     <input
@@ -157,7 +157,7 @@ const Login = ({ onSwitchToSignup }) => {
                                         value={userType === 'student' ? formData.studentId : formData.email}
                                         onChange={handleInputChange}
                                         className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
-                                        placeholder={userType === 'student' ? 'Enter your Student ID' : 'Enter your email'}
+                                        placeholder={userType === 'student' ? 'Enter your Student ID' : 'Enter your Employee ID'}
                                         required
                                     />
                                 </div>
@@ -208,7 +208,7 @@ const Login = ({ onSwitchToSignup }) => {
                                     onClick={onSwitchToSignup}
                                     className="text-blue-600 hover:text-blue-700 font-medium"
                                 >
-                                    <Link to = "/signup">  Register here  </Link>
+                                    <Link to="/signup">  Register here  </Link>
                                 </button>
                             </p>
                         </div>
