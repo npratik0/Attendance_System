@@ -61,14 +61,14 @@ function App() {
     <Router>
       <Routes>
         {/* <Route path="/" element={<LandingPage />} /> */}
-        <Route path="/" element={<Login />} /> ✅ Start page changed
+        <Route path="/" element={<Signup />} /> ✅ Start page changed
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/admin-login" element={<AdminLogin />} />
-        
+
         <Route path="/admin-dashboard" element={<AdminDashboard />} /> {/* ✅ Added route */}
         <Route path="/profile/change-password" element={<ChangePassword />} />
-        
+
 
         <Route element={<ProtectedRoute />}>
           <Route path="/teacher-dashboard" element={<TeachersDashboard />} />

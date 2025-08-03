@@ -33,57 +33,57 @@ const Signup = ({ onSwitchToLogin }) => {
     // };
 
     const handleSubmit = async (e) => {
-    e.preventDefault();
+        e.preventDefault();
 
-    const password = formData.password.trim();
-    const confirmPassword = formData.confirmPassword.trim();
+        const password = formData.password.trim();
+        const confirmPassword = formData.confirmPassword.trim();
 
-    console.log("Password:", password);
-    console.log("Confirm:", confirmPassword);
+        console.log("Password:", password);
+        console.log("Confirm:", confirmPassword);
 
-    if (password !== confirmPassword) {
-        alert("Passwords do not match!");
-        return;
-    }
-
-    const payload = {
-    fullName: formData.fullName,
-    email: formData.email,
-    phone: formData.phone,
-    password: formData.password,
-    confirmPassword: formData.confirmPassword, // ✅ required
-    role: userType,
-    department: formData.department
-    
-    };
-
-    if (userType === 'student') {
-    payload.studentId = formData.studentId;
-    payload.semester = formData.semester;
-    } else {
-    payload.employeeId = formData.employeeId;
-    }
-
-    try {
-        const response = await fetch('http://localhost:5000/api/auth/signup', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
-        });
-
-        const data = await response.json();
-
-        if (!response.ok) {
-        throw new Error(data.message || 'Signup failed');
+        if (password !== confirmPassword) {
+            alert("Passwords do not match!");
+            return;
         }
 
-        alert('Account created successfully!');
-        // 
-        navigate('/login');
-    } catch (error) {
-        console.error('Signup error:', error);
-        alert(error.message);
-    }
+        const payload = {
+            fullName: formData.fullName,
+            email: formData.email,
+            phone: formData.phone,
+            password: formData.password,
+            confirmPassword: formData.confirmPassword, // ✅ required
+            role: userType,
+            department: formData.department
+
+        };
+
+        if (userType === 'student') {
+            payload.studentId = formData.studentId;
+            payload.semester = formData.semester;
+        } else {
+            payload.employeeId = formData.employeeId;
+        }
+
+        try {
+            const response = await fetch('http://localhost:5000/api/auth/signup', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(payload)
+            });
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error(data.message || 'Signup failed');
+            }
+
+            alert('Account created successfully!');
+            // 
+            navigate('/login');
+        } catch (error) {
+            console.error('Signup error:', error);
+            alert(error.message);
+        }
     };
 
 
@@ -114,8 +114,8 @@ const Signup = ({ onSwitchToLogin }) => {
                             <div className="bg-gradient-to-r from-blue-600 to-purple-600 p-3 rounded-full w-16 h-16 mx-auto mb-4">
                                 <UserPlus className="w-10 h-10 text-white" />
                             </div>
-                            <h1 className="text-2xl font-bold text-gray-800 mb-2">Create Account</h1>
-                            <p className="text-gray-600">Join the attendance management system</p>
+                            <h1 className="text-2xl font-bold text-gray-800 mb-2">Add User</h1>
+                            <p className="text-gray-600">Add new user to the attendance management system</p>
                         </div>
 
                         {/* User Type Toggle */}
@@ -124,8 +124,8 @@ const Signup = ({ onSwitchToLogin }) => {
                                 <button
                                     onClick={() => toggleUserType('student')}
                                     className={`flex items-center justify-center space-x-2 py-3 px-4 rounded-md font-medium transition-all duration-200 ${userType === 'student'
-                                            ? 'bg-white text-blue-600 shadow-sm'
-                                            : 'text-gray-600 hover:text-gray-800'
+                                        ? 'bg-white text-blue-600 shadow-sm'
+                                        : 'text-gray-600 hover:text-gray-800'
                                         }`}
                                 >
                                     <GraduationCap className="w-4 h-4" />
@@ -134,8 +134,8 @@ const Signup = ({ onSwitchToLogin }) => {
                                 <button
                                     onClick={() => toggleUserType('teacher')}
                                     className={`flex items-center justify-center space-x-2 py-3 px-4 rounded-md font-medium transition-all duration-200 ${userType === 'teacher'
-                                            ? 'bg-white text-purple-600 shadow-sm'
-                                            : 'text-gray-600 hover:text-gray-800'
+                                        ? 'bg-white text-purple-600 shadow-sm'
+                                        : 'text-gray-600 hover:text-gray-800'
                                         }`}
                                 >
                                     <Users className="w-4 h-4" />
@@ -161,7 +161,7 @@ const Signup = ({ onSwitchToLogin }) => {
                                         value={formData.fullName}
                                         onChange={handleInputChange}
                                         className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
-                                        placeholder="Enter your full name"
+                                        placeholder="Enter full name"
                                         required
                                     />
                                 </div>
@@ -182,7 +182,7 @@ const Signup = ({ onSwitchToLogin }) => {
                                         value={formData.email}
                                         onChange={handleInputChange}
                                         className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
-                                        placeholder="Enter your email"
+                                        placeholder="Enter email"
                                         required
                                     />
                                 </div>
@@ -203,7 +203,7 @@ const Signup = ({ onSwitchToLogin }) => {
                                         value={userType === 'student' ? formData.studentId : formData.employeeId}
                                         onChange={handleInputChange}
                                         className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
-                                        placeholder={userType === 'student' ? 'Enter your Student ID' : 'Enter your Employee ID'}
+                                        placeholder={userType === 'student' ? 'Enter Student ID' : 'Enter Employee ID'}
                                         required
                                     />
                                 </div>
@@ -224,7 +224,7 @@ const Signup = ({ onSwitchToLogin }) => {
                                         value={formData.phone}
                                         onChange={handleInputChange}
                                         className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
-                                        placeholder="Enter your phone number"
+                                        placeholder="Enter phone number"
                                         required
                                     />
                                 </div>
@@ -345,7 +345,7 @@ const Signup = ({ onSwitchToLogin }) => {
                                         value={formData.confirmPassword}
                                         onChange={handleInputChange}
                                         className="w-full pl-10 pr-12 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
-                                        placeholder="Confirm your password"
+                                        placeholder="Confirm password"
                                         required
                                     />
                                     <button
@@ -363,14 +363,14 @@ const Signup = ({ onSwitchToLogin }) => {
                                 onClick={handleSubmit}
                                 className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white py-3 px-4 rounded-lg font-medium hover:from-blue-700 hover:to-purple-700 transform hover:scale-105 transition-all duration-200 shadow-lg mt-6"
                             >
-                                Create Account
+                                Add Account
                             </button>
                         </div>
 
                         {/* Login Link */}
                         <div className="text-center mt-6">
                             <p className="text-gray-600">
-                                Already have an account?{' '}
+                                {' '}
                                 {/* <button
                                     onClick={onSwitchToLogin}
                                     className="text-blue-600 hover:text-blue-700 font-medium"
@@ -378,7 +378,7 @@ const Signup = ({ onSwitchToLogin }) => {
                                     Sign in here
                                 </button> */}
                                 <Link to="/login" className="text-blue-600 hover:text-blue-700 font-medium">
-                                    Sign in here
+                                    Login in here
                                 </Link>
                             </p>
                         </div>
