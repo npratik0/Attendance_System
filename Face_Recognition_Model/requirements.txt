@@ -1,0 +1,12 @@
+# Face Recognition Dependencies
+# opencv-python==4.8.0.76
+# face-recognition==1.3.0
+# dlib==19.24.2
+# numpy==1.24.3
+Pillow==10.0.0
+
+# HTTP Requests for backend communication
+requests==2.31.0
+
+# Optional: Progress bars and utilities
+tqdm==4.65.0
