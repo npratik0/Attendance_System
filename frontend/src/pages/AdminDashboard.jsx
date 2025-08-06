@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
-
 import {
     Camera,
     User,
@@ -35,7 +34,7 @@ import {
     Eye,
     Mail
 } from 'lucide-react';
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart as RechartsPieChart, Cell } from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart as RechartsPieChart, Cell, Pie } from 'recharts';
 
 // AdminNavbar Component
 const AdminNavbar = ({ onProfileClick, onNotificationClick }) => {
@@ -60,7 +59,7 @@ const AdminNavbar = ({ onProfileClick, onNotificationClick }) => {
                             <Camera className="w-6 h-6 text-white" />
                         </div>
                         <div>
-                            <span className="text-xl font-bold text-gray-800">FaceTrackr</span>
+                            <span className="text-xl font-bold text-gray-800">ClockinGo</span>
                             <p className="text-xs text-gray-500 hidden sm:block">Admin Dashboard</p>
                         </div>
                     </div>
@@ -307,16 +306,23 @@ const DashboardContent = () => {
                     </ResponsiveContainer>
                 </div>
 
-                {/* User Ratio Pie Chart */}
+                {/* User Ratio Pie Chart - FIXED */}
                 <div className="bg-white rounded-lg shadow-lg border border-gray-100 p-6">
                     <h2 className="text-lg font-semibold text-gray-800 mb-4">Student vs Teacher Ratio</h2>
                     <ResponsiveContainer width="100%" height={300}>
                         <RechartsPieChart>
-                            <RechartsPieChart data={userRatioData} cx="50%" cy="50%" outerRadius={80}>
+                            <Pie
+                                data={userRatioData}
+                                cx="50%"
+                                cy="50%"
+                                outerRadius={80}
+                                dataKey="value"
+                                label={({ name, value }) => `${name}: ${value}`}
+                            >
                                 {userRatioData.map((entry, index) => (
                                     <Cell key={`cell-${index}`} fill={entry.color} />
                                 ))}
-                            </RechartsPieChart>
+                            </Pie>
                             <Tooltip />
                         </RechartsPieChart>
                     </ResponsiveContainer>
@@ -372,10 +378,12 @@ const DashboardContent = () => {
 // Manage Users Content Component
 const ManageUsersContent = () => {
     const [searchTerm, setSearchTerm] = useState('');
-    const navigate = useNavigate(); // ✅ This is missing in your snippet
+    const [editingUser, setEditingUser] = useState(null);
+    const [editForm, setEditForm] = useState({ name: '', email: '' });
+    const [showDeleteConfirm, setShowDeleteConfirm] = useState(null);
+    const navigate = useNavigate();
 
-
-    const users = [
+    const [users, setUsers] = useState([
         { id: 1, name: 'John Doe', email: 'john.doe@email.com', role: 'Student' },
         { id: 2, name: 'Jane Smith', email: 'jane.smith@email.com', role: 'Teacher' },
         { id: 3, name: 'Mike Johnson', email: 'mike.johnson@email.com', role: 'Student' },
@@ -384,12 +392,62 @@ const ManageUsersContent = () => {
         { id: 6, name: 'Emily Davis', email: 'emily.davis@email.com', role: 'Student' },
         { id: 7, name: 'David Lee', email: 'david.lee@email.com', role: 'Teacher' },
         { id: 8, name: 'Lisa Wang', email: 'lisa.wang@email.com', role: 'Student' },
-    ];
+    ]);
 
     const filteredUsers = users.filter(user =>
         user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
         user.email.toLowerCase().includes(searchTerm.toLowerCase())
     );
+
+    // Handle edit button click
+    const handleEditClick = (user) => {
+        setEditingUser(user.id);
+        setEditForm({
+            name: user.name,
+            email: user.email
+        });
+    };
+
+    // Handle edit form changes
+    const handleEditChange = (e) => {
+        setEditForm({
+            ...editForm,
+            [e.target.name]: e.target.value
+        });
+    };
+
+    // Save edited user
+    const handleSaveEdit = () => {
+        setUsers(users.map(user =>
+            user.id === editingUser
+                ? { ...user, name: editForm.name, email: editForm.email }
+                : user
+        ));
+        setEditingUser(null);
+        setEditForm({ name: '', email: '' });
+    };
+
+    // Cancel editing
+    const handleCancelEdit = () => {
+        setEditingUser(null);
+        setEditForm({ name: '', email: '' });
+    };
+
+    // Handle delete button click
+    const handleDeleteClick = (userId) => {
+        setShowDeleteConfirm(userId);
+    };
+
+    // Confirm delete user
+    const handleConfirmDelete = () => {
+        setUsers(users.filter(user => user.id !== showDeleteConfirm));
+        setShowDeleteConfirm(null);
+    };
+
+    // Cancel delete
+    const handleCancelDelete = () => {
+        setShowDeleteConfirm(null);
+    };
 
     return (
         <div className="space-y-6">
@@ -435,30 +493,146 @@ const ManageUsersContent = () => {
                             {filteredUsers.map((user) => (
                                 <tr key={user.id} className="border-b border-gray-100 hover:bg-gray-50">
                                     <td className="py-3 px-4">{user.id}</td>
-                                    <td className="py-3 px-4 font-medium">{user.name}</td>
-                                    <td className="py-3 px-4 text-gray-600">{user.email}</td>
+
+                                    {/* Editable Name Field */}
                                     <td className="py-3 px-4">
-                                        <span className={`px-2 py-1 rounded-full text-xs font-medium ${user.role === 'Teacher' ? 'bg-green-100 text-green-800' : 'bg-blue-100 text-blue-800'
-                                            }`}>
+                                        {editingUser === user.id ? (
+                                            <input
+                                                type="text"
+                                                name="name"
+                                                value={editForm.name}
+                                                onChange={handleEditChange}
+                                                className="w-full px-2 py-1 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                                autoFocus
+                                            />
+                                        ) : (
+                                            <span className="font-medium">{user.name}</span>
+                                        )}
+                                    </td>
+
+                                    {/* Editable Email Field */}
+                                    <td className="py-3 px-4">
+                                        {editingUser === user.id ? (
+                                            <input
+                                                type="email"
+                                                name="email"
+                                                value={editForm.email}
+                                                onChange={handleEditChange}
+                                                className="w-full px-2 py-1 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                            />
+                                        ) : (
+                                            <span className="text-gray-600">{user.email}</span>
+                                        )}
+                                    </td>
+
+                                    <td className="py-3 px-4">
+                                        <span className={`px-2 py-1 rounded-full text-xs font-medium ${user.role === 'Teacher' ? 'bg-green-100 text-green-800' : 'bg-blue-100 text-blue-800'}`}>
                                             {user.role}
                                         </span>
                                     </td>
+
+                                    {/* Actions Column */}
                                     <td className="py-3 px-4">
-                                        <div className="flex space-x-2">
-                                            <button className="text-blue-600 hover:text-blue-800 p-1">
-                                                <Edit className="w-4 h-4" />
-                                            </button>
-                                            <button className="text-red-600 hover:text-red-800 p-1">
-                                                <Trash2 className="w-4 h-4" />
-                                            </button>
-                                        </div>
+                                        {editingUser === user.id ? (
+                                            // Save/Cancel buttons when editing
+                                            <div className="flex space-x-2">
+                                                <button
+                                                    onClick={handleSaveEdit}
+                                                    className="bg-green-600 text-white px-3 py-1 rounded text-sm hover:bg-green-700 transition-colors duration-200"
+                                                    title="Save Changes"
+                                                >
+                                                    Save
+                                                </button>
+                                                <button
+                                                    onClick={handleCancelEdit}
+                                                    className="bg-gray-600 text-white px-3 py-1 rounded text-sm hover:bg-gray-700 transition-colors duration-200"
+                                                    title="Cancel Editing"
+                                                >
+                                                    Cancel
+                                                </button>
+                                            </div>
+                                        ) : (
+                                            // Edit/Delete buttons when not editing
+                                            <div className="flex space-x-2">
+                                                <button
+                                                    onClick={() => handleEditClick(user)}
+                                                    className="text-blue-600 hover:text-blue-800 p-1 hover:bg-blue-100 rounded transition-colors duration-200"
+                                                    title="Edit User"
+                                                >
+                                                    <Edit className="w-4 h-4" />
+                                                </button>
+                                                <button
+                                                    onClick={() => handleDeleteClick(user.id)}
+                                                    className="text-red-600 hover:text-red-800 p-1 hover:bg-red-100 rounded transition-colors duration-200"
+                                                    title="Delete User"
+                                                >
+                                                    <Trash2 className="w-4 h-4" />
+                                                </button>
+                                            </div>
+                                        )}
                                     </td>
                                 </tr>
                             ))}
                         </tbody>
                     </table>
+
+                    {filteredUsers.length === 0 && (
+                        <div className="text-center py-8 text-gray-500">
+                            <Users className="w-12 h-12 mx-auto mb-4 text-gray-300" />
+                            <p>No users found</p>
+                        </div>
+                    )}
                 </div>
             </div>
+
+            {/* Delete Confirmation Modal */}
+            {showDeleteConfirm && (
+                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+                    <div className="bg-white rounded-lg p-6 w-full max-w-md mx-4">
+                        <div className="flex items-center space-x-3 mb-4">
+                            <div className="flex-shrink-0">
+                                <div className="w-10 h-10 bg-red-100 rounded-full flex items-center justify-center">
+                                    <Trash2 className="w-5 h-5 text-red-600" />
+                                </div>
+                            </div>
+                            <div>
+                                <h3 className="text-lg font-medium text-gray-900">Delete User</h3>
+                                <p className="text-sm text-gray-500">Are you sure you want to delete this user? This action cannot be undone.</p>
+                            </div>
+                        </div>
+
+                        <div className="bg-gray-50 rounded-lg p-3 mb-4">
+                            {(() => {
+                                const user = users.find(u => u.id === showDeleteConfirm);
+                                return user ? (
+                                    <div>
+                                        <p className="font-medium text-gray-900">{user.name}</p>
+                                        <p className="text-sm text-gray-600">{user.email}</p>
+                                        <span className={`inline-block mt-1 px-2 py-1 rounded-full text-xs font-medium ${user.role === 'Teacher' ? 'bg-green-100 text-green-800' : 'bg-blue-100 text-blue-800'}`}>
+                                            {user.role}
+                                        </span>
+                                    </div>
+                                ) : null;
+                            })()}
+                        </div>
+
+                        <div className="flex space-x-3">
+                            <button
+                                onClick={handleConfirmDelete}
+                                className="flex-1 bg-red-600 text-white py-2 rounded-lg hover:bg-red-700 transition-colors duration-200 font-medium"
+                            >
+                                Delete User
+                            </button>
+                            <button
+                                onClick={handleCancelDelete}
+                                className="flex-1 bg-gray-300 text-gray-700 py-2 rounded-lg hover:bg-gray-400 transition-colors duration-200 font-medium"
+                            >
+                                Cancel
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };
