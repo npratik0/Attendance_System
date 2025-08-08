@@ -233,7 +233,7 @@ const DashboardContent = () => {
     const greeting = currentHour < 12 ? 'Good Morning' : currentHour < 18 ? 'Good Afternoon' : 'Good Evening';
 
     const stats = [
-        { label: 'Overall Attendance', value: '92%', icon: BarChart3, color: 'from-green-500 to-green-600' },
+        { label: 'Overall Attendance', value: '88%', icon: BarChart3, color: 'from-green-500 to-green-600' },
         { label: 'Classes This Week', value: '24', icon: Calendar, color: 'from-blue-500 to-blue-600' },
         { label: 'Present Days', value: '22', icon: CheckCircle, color: 'from-purple-500 to-purple-600' },
         { label: 'Absent Days', value: '2', icon: XCircle, color: 'from-red-500 to-red-600' },
@@ -259,11 +259,11 @@ const DashboardContent = () => {
                 <h1 className="text-2xl font-bold mb-2">
                     {loading ? 'Loading...' : `${greeting}, ${userName}! 🎯`}
                 </h1>
-                <p className="text-blue-100">You've attended 92% of your classes this month. Keep it up!</p>
+                <p className="text-blue-100">You've attended 88% of your classes this month. Keep it up!</p>
                 <div className="mt-4 bg-white bg-opacity-20 rounded-lg p-3">
                     <div className="flex justify-between items-center mb-2">
                         <span className="text-sm font-medium text-black">Monthly Goal: 95%</span>
-                        <span className="text-sm font-medium text-black">92%</span>
+                        <span className="text-sm font-medium text-black"></span>
                     </div>
 
                     <div className="w-full bg-white bg-opacity-30 rounded-full h-2">
@@ -417,11 +417,11 @@ const AttendanceContent = () => {
 // Absence History Component
 const AbsenceHistoryContent = () => {
     const absenceHistory = [
-        { date: '2024-01-15', reason: 'Medical Leave', subjects: ['Mathematics', 'Physics'], excused: true },
-        { date: '2024-01-10', reason: 'Family Emergency', subjects: ['Computer Science'], excused: true },
-        { date: '2024-01-08', reason: 'No Reason Provided', subjects: ['English', 'History'], excused: false },
-        { date: '2024-01-05', reason: 'Sick Leave', subjects: ['Chemistry'], excused: true },
-        { date: '2024-01-03', reason: 'Personal Work', subjects: ['Mathematics'], excused: false },
+        { date: '2025-08-02', reason: 'Medical Leave', subjects: ['Mathematics', 'Physics'], excused: true },
+        { date: '2025-08-05', reason: 'Family Emergency', subjects: ['Computer Science'], excused: true },
+        { date: '2025-04-08', reason: 'No Reason Provided', subjects: ['English', 'History'], excused: false },
+        { date: '2025-04-05', reason: 'Sick Leave', subjects: ['Chemistry'], excused: true },
+        { date: '2025-01-03', reason: 'Personal Work', subjects: ['Mathematics'], excused: false },
     ];
 
     return (
@@ -948,7 +948,7 @@ const TicketsContent = () => {
 
     // For now, if we can't get the real data, use temporary values so the system works
     // TODO: Replace with actual user data once login system is confirmed
-    const finalStudentId = studentId || 'STU123';
+    const finalStudentId = studentId || 'ST12345';
     const finalFullName = fullName || 'Current User';
 
     const subjects = ['Mathematics', 'Physics', 'Computer Science', 'Chemistry', 'English', 'History'];
@@ -1145,10 +1145,10 @@ const TicketsContent = () => {
                                         <td className="py-3 px-4">
                                             <span
                                                 className={`px-2 py-1 rounded-full text-xs font-medium ${ticket.status === 'pending'
-                                                        ? 'bg-yellow-100 text-yellow-800'
-                                                        : ticket.status === 'approved'
-                                                            ? 'bg-green-100 text-green-800'
-                                                            : 'bg-red-100 text-red-800'
+                                                    ? 'bg-yellow-100 text-yellow-800'
+                                                    : ticket.status === 'approved'
+                                                        ? 'bg-green-100 text-green-800'
+                                                        : 'bg-red-100 text-red-800'
                                                     }`}
                                             >
                                                 {ticket.status.charAt(0).toUpperCase() + ticket.status.slice(1)}

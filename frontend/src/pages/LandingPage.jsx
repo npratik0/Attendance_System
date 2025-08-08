@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import Navbar from '../components/Navbar';
+import { Link } from 'react-router-dom'
 import {
     Camera,
     Shield,
@@ -56,7 +57,7 @@ const HeroSection = ({ onGetStartedClick }) => {
                                 onClick={onGetStartedClick}
                                 className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-4 rounded-lg font-medium hover:from-blue-700 hover:to-purple-700 transform hover:scale-105 transition-all duration-200 shadow-lg hover:shadow-xl flex items-center justify-center space-x-2"
                             >
-                                <span>Get Started</span>
+                                <span><Link to='/login'>Get Started</Link></span>
                                 <ArrowRight className="w-5 h-5" />
                             </button>
 
@@ -91,7 +92,7 @@ const HeroSection = ({ onGetStartedClick }) => {
                                         <CheckCircle className="w-6 h-6 text-green-600" />
                                     </div>
                                     <div>
-                                        <div className="font-medium text-gray-900">John Doe</div>
+                                        <div className="font-medium text-gray-900">Pratik Neupane</div>
                                         <div className="text-sm text-gray-600">Present - 09:15 AM</div>
                                     </div>
                                 </div>
@@ -101,7 +102,7 @@ const HeroSection = ({ onGetStartedClick }) => {
                                         <CheckCircle className="w-6 h-6 text-green-600" />
                                     </div>
                                     <div>
-                                        <div className="font-medium text-gray-900">Jane Smith</div>
+                                        <div className="font-medium text-gray-900">Ankit Sharma</div>
                                         <div className="text-sm text-gray-600">Present - 09:12 AM</div>
                                     </div>
                                 </div>
@@ -111,7 +112,7 @@ const HeroSection = ({ onGetStartedClick }) => {
                                         <Clock className="w-6 h-6 text-blue-600" />
                                     </div>
                                     <div>
-                                        <div className="font-medium text-gray-900">Mike Johnson</div>
+                                        <div className="font-medium text-gray-900">Shreeya Paudel</div>
                                         <div className="text-sm text-gray-600">Scanning...</div>
                                     </div>
                                 </div>
@@ -182,7 +183,7 @@ const FeaturesSection = () => {
                         Core Features
                     </h2>
                     <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-                        Discover the powerful features that make FaceTrackr the perfect solution for modern attendance management
+                        Discover the powerful features that make ClockinGo the perfect solution for modern attendance management
                     </p>
                 </div>
 
@@ -242,7 +243,7 @@ const WhyChooseUsSection = () => {
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="text-center mb-16">
                     <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-                        Why Choose FaceTrackr?
+                        Why Choose ClockinGo?
                     </h2>
                     <p className="text-xl text-gray-600 max-w-3xl mx-auto">
                         Experience the advantages that set us apart from traditional attendance systems
@@ -283,7 +284,7 @@ const AboutUsSection = () => {
                             decided to create a modern, efficient solution.
                         </p>
                         <p className="text-lg text-gray-600 mb-6">
-                            FaceTrackr was born out of our commitment to addressing issues like proxy attendance, manual errors,
+                            ClockinGo was born out of our commitment to addressing issues like proxy attendance, manual errors,
                             and time-consuming processes that plague traditional attendance systems. We believe technology should
                             empower institutions, not complicate their operations.
                         </p>
@@ -342,7 +343,7 @@ const Footer = () => {
                                 <Camera className="w-6 h-6 text-white" />
                             </div>
                             <div>
-                                <span className="text-xl font-bold">FaceTrackr</span>
+                                <span className="text-xl font-bold">ClockinGo</span>
                                 <p className="text-gray-400 text-sm">Smart Attendance Made Easy</p>
                             </div>
                         </div>
@@ -380,7 +381,7 @@ const Footer = () => {
                         <div className="space-y-3">
                             <div className="flex items-center space-x-2">
                                 <Mail className="w-4 h-4 text-gray-400" />
-                                <span className="text-gray-400">team@facetrackr.edu</span>
+                                <span className="text-gray-400">team@clockingo.edu</span>
                             </div>
                             <div className="flex items-center space-x-2">
                                 <Phone className="w-4 h-4 text-gray-400" />
@@ -396,7 +397,7 @@ const Footer = () => {
 
                 <div className="border-t border-gray-800 mt-8 pt-8 text-center">
                     <p className="text-gray-400">
-                        Made with ❤️ by Team FaceTrackr | © 2024 All rights reserved
+                        Made with ❤️ by Team ClockinGo | © 2024 All rights reserved
                     </p>
                 </div>
             </div>

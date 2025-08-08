@@ -49,7 +49,7 @@ const TeacherNavbar = ({ onProfileClick, onNotificationClick }) => {
                             <Camera className="w-6 h-6 text-white" />
                         </div>
                         <div>
-                            <span className="text-xl font-bold text-gray-800">FaceTrackr</span>
+                            <span className="text-xl font-bold text-gray-800">ClockinGo</span>
                             <p className="text-xs text-gray-500 hidden sm:block">Teacher Dashboard</p>
                         </div>
                     </div>
@@ -584,6 +584,11 @@ const AttendanceContent = () => {
                             <option value="ds">Data Structures</option>
                             <option value="algo">Algorithms</option>
                         </select>
+                        <button className="w-full mt-3 px-3 py-2 bg-blue-600 text-white font-medium rounded-lg
+                         hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1 
+                         transition-all duration-200">
+                            Start Attendance
+                        </button>
                     </div>
                 </div>
             </div>
@@ -690,7 +695,7 @@ const MessagesContent = () => {
     const messages = [
         {
             id: 1,
-            from: 'John Smith',
+            from: 'Pratik Nuupane',
             subject: 'Leave Request - Medical Appointment',
             message: 'Dear Professor, I will not be able to attend tomorrow\'s class due to a medical appointment. I will catch up on the missed material.',
             time: '2 hours ago',
@@ -700,7 +705,7 @@ const MessagesContent = () => {
         },
         {
             id: 2,
-            from: 'Sarah Johnson',
+            from: 'Ankit Sharma',
             subject: 'Question about Assignment 3',
             message: 'Hi Professor, I have a question about the database design assignment. Could you please clarify the requirements for the normalization section?',
             time: '4 hours ago',
@@ -710,7 +715,7 @@ const MessagesContent = () => {
         },
         {
             id: 3,
-            from: 'Mike Davis',
+            from: 'Shreeya Paudel',
             subject: 'Late Submission Request',
             message: 'Professor, due to technical issues with my laptop, I couldn\'t submit the assignment on time. May I please have an extension?',
             time: '1 day ago',
@@ -720,7 +725,7 @@ const MessagesContent = () => {
         },
         {
             id: 4,
-            from: 'Emily Chen',
+            from: 'Samikshya Baniya',
             subject: 'Thank you for extra help',
             message: 'Thank you so much for the extra tutoring session yesterday. It really helped me understand the concept better.',
             time: '2 days ago',
@@ -730,7 +735,7 @@ const MessagesContent = () => {
         },
         {
             id: 5,
-            from: 'Alex Rodriguez',
+            from: 'Binnol Dahal',
             subject: 'Group Project Update',
             message: 'Our group has completed the first phase of the project. We would like to schedule a meeting to discuss our progress.',
             time: '3 days ago',

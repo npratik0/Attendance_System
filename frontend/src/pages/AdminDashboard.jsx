@@ -384,14 +384,14 @@ const ManageUsersContent = () => {
     const navigate = useNavigate();
 
     const [users, setUsers] = useState([
-        { id: 1, name: 'John Doe', email: 'john.doe@email.com', role: 'Student' },
-        { id: 2, name: 'Jane Smith', email: 'jane.smith@email.com', role: 'Teacher' },
-        { id: 3, name: 'Mike Johnson', email: 'mike.johnson@email.com', role: 'Student' },
-        { id: 4, name: 'Sarah Wilson', email: 'sarah.wilson@email.com', role: 'Teacher' },
-        { id: 5, name: 'Tom Brown', email: 'tom.brown@email.com', role: 'Student' },
-        { id: 6, name: 'Emily Davis', email: 'emily.davis@email.com', role: 'Student' },
-        { id: 7, name: 'David Lee', email: 'david.lee@email.com', role: 'Teacher' },
-        { id: 8, name: 'Lisa Wang', email: 'lisa.wang@email.com', role: 'Student' },
+        { id: 1, name: 'Pratik Neupane', email: 'pratikneupane@email.com', role: 'Student' },
+        { id: 2, name: 'Anki Sharma', email: 'ankitsharma@email.com', role: 'Teacher' },
+        { id: 3, name: 'Binnol Dahal', email: 'binnoln@email.com', role: 'Student' },
+        { id: 4, name: 'Samikshaya Baniya', email: 'samikshyabaniya@email.com', role: 'Teacher' },
+        { id: 5, name: 'Shreeya Paudel', email: 'shreeyapaudeln@email.com', role: 'Student' },
+        { id: 6, name: 'Nirjal Adhikari', email: 'nirjaladhikari@email.com', role: 'Student' },
+        { id: 7, name: 'Manoj Shrestha', email: 'manojshrestha@email.com', role: 'Teacher' },
+        { id: 8, name: 'Ram Adhikari', email: 'ramadhikari@email.com', role: 'Student' },
     ]);
 
     const filteredUsers = users.filter(user =>
@@ -1350,11 +1350,11 @@ const ReportsContent = () => {
 // Messages Content Component
 const MessagesContent = () => {
     const messages = [
-        { id: 1, from: 'John Doe', subject: 'Attendance Query', time: '10:30 AM', unread: true },
-        { id: 2, from: 'Jane Smith', subject: 'Technical Issue', time: '9:45 AM', unread: true },
-        { id: 3, from: 'Mike Johnson', subject: 'Leave Request Follow-up', time: '9:15 AM', unread: false },
-        { id: 4, from: 'Sarah Wilson', subject: 'System Access Problem', time: 'Yesterday', unread: false },
-        { id: 5, from: 'Tom Brown', subject: 'Feature Request', time: 'Yesterday', unread: false },
+        { id: 1, from: 'Ankit Sharma', subject: 'Attendance Query', time: '10:30 AM', unread: true },
+        { id: 2, from: 'Pratik Neupane', subject: 'Technical Issue', time: '9:45 AM', unread: true },
+        { id: 3, from: 'Shreeya Paudel', subject: 'Leave Request Follow-up', time: '9:15 AM', unread: false },
+        { id: 4, from: 'Shreeya Paudel', subject: 'System Access Problem', time: 'Yesterday', unread: false },
+        { id: 5, from: 'Ram Adhikari', subject: 'Feature Request', time: 'Yesterday', unread: false },
     ];
 
     return (
@@ -1430,7 +1430,7 @@ const Footer = () => (
                     <div className="bg-gradient-to-r from-blue-600 to-purple-600 p-1 rounded">
                         <Camera className="w-4 h-4 text-white" />
                     </div>
-                    <span className="text-sm text-gray-600">© 2024 FaceTrackr. All rights reserved.</span>
+                    <span className="text-sm text-gray-600">© 2024 ClockinGo. All rights reserved.</span>
                 </div>
                 <div className="text-sm text-gray-500">
                     Version 1.0.0

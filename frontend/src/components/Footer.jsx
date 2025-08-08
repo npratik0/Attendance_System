@@ -121,7 +121,7 @@ const Footer = () => {
                                     <Camera className="w-7 h-7 text-white" />
                                 </div>
                                 <div>
-                                    <h3 className="text-2xl font-bold text-white">FaceTrack Attendance</h3>
+                                    <h3 className="text-2xl font-bold text-white">ClockinGo Attendance</h3>
                                     <p className="text-sm text-gray-400 mt-1">Smart Recognition System</p>
                                 </div>
                             </div>
@@ -237,8 +237,8 @@ const Footer = () => {
                                     onClick={handleSubscribe}
                                     disabled={isSubscribed}
                                     className={`w-full px-6 py-3 rounded-xl font-semibold transition-all duration-300 flex items-center justify-center space-x-2 ${isSubscribed
-                                            ? 'bg-green-600 text-white shadow-lg'
-                                            : 'bg-gradient-to-r from-blue-600 to-purple-600 text-white hover:from-blue-700 hover:to-purple-700 hover:shadow-lg hover:scale-105 transform'
+                                        ? 'bg-green-600 text-white shadow-lg'
+                                        : 'bg-gradient-to-r from-blue-600 to-purple-600 text-white hover:from-blue-700 hover:to-purple-700 hover:shadow-lg hover:scale-105 transform'
                                         }`}
                                 >
                                     {isSubscribed ? (
@@ -261,7 +261,7 @@ const Footer = () => {
                         <div className="flex flex-col lg:flex-row items-center justify-between space-y-6 lg:space-y-0">
                             {/* Copyright */}
                             <div className="text-gray-400 text-center lg:text-left">
-                                <p className="text-base">© 2025 FaceTrack Attendance. All rights reserved.</p>
+                                <p className="text-base">© 2025 ClockinGo Attendance. All rights reserved.</p>
                                 <p className="text-sm mt-1 text-gray-500">Designed with ❤️ for educational excellence</p>
                             </div>
 

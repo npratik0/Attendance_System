@@ -201,7 +201,7 @@ const Login = ({ onSwitchToSignup }) => {
                         </div>
 
                         {/* Register Link */}
-                        <div className="text-center mt-6">
+                        {/* <div className="text-center mt-6">
                             <p className="text-gray-600">
                                 Don't have an account?{' '}
                                 <button
@@ -211,7 +211,7 @@ const Login = ({ onSwitchToSignup }) => {
                                     <Link to="/signup">  Register here  </Link>
                                 </button>
                             </p>
-                        </div>
+                        </div> */}
 
                         {/* Features Footer */}
                         <div className="mt-8 pt-6 border-t border-gray-200">

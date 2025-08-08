@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { Camera, Menu, X } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 const Navbar = ({ currentPage, onPageSwitch }) => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const Navigate = useNavigate();
 
     const navItems = [
         { name: 'Home', href: '#home' },
@@ -10,6 +12,10 @@ const Navbar = ({ currentPage, onPageSwitch }) => {
         { name: 'About', href: '#about' },
         { name: 'Contact', href: '#contact' }
     ];
+
+    const goToLogin = () => {
+        Navigate('/login')
+    }
 
     return (
         <nav className="bg-white shadow-lg border-b border-gray-200 sticky top-0 z-50">
@@ -21,7 +27,7 @@ const Navbar = ({ currentPage, onPageSwitch }) => {
                             <Camera className="w-6 h-6 text-white" />
                         </div>
                         <div>
-                            <span className="text-xl font-bold text-gray-800">FaceTrackr</span>
+                            <span className="text-xl font-bold text-gray-800">ClockinGo</span>
                             <p className="text-xs text-gray-500 hidden sm:block">Smart Attendance Made Easy</p>
                         </div>
                     </div>
@@ -50,7 +56,7 @@ const Navbar = ({ currentPage, onPageSwitch }) => {
                             </button>
                         ) : (
                             <button
-                                onClick={() => onPageSwitch('login')}
+                                onClick={goToLogin}
                                 className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-4 py-2 rounded-lg font-medium hover:from-blue-700 hover:to-purple-700 transition-all duration-200 shadow-lg hover:shadow-xl"
                             >
                                 Login
