@@ -16,7 +16,7 @@ This system integrates two main parts:
    - Automatically logs attendance in a CSV file if a match is found.  
    - Prevents duplicate entries for the same day.
 
-2. **Web Application (MERN Stack)**  
+2. **Web Application (PERN Stack)**  
    - Provides separate dashboards for **Admin, Teachers, and Students**.  
    - Allows admins/teachers to view, manage, and download attendance reports.  
    - Students can log in to check their attendance records.  
